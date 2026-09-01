@@ -1,0 +1,5887 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0f1e">
+<title>داشبورد یاشار</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* =====================================================
+   ROOT & RESET
+===================================================== */
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --bg-primary: #060b18;
+  --bg-secondary: #0d1425;
+  --bg-card: rgba(15, 23, 42, 0.7);
+  --bg-card-solid: #0f172a;
+  --bg-card-hover: rgba(20, 30, 55, 0.85);
+  --border-color: rgba(99, 118, 156, 0.15);
+  --border-hover: rgba(245, 174, 51, 0.3);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-gold: #f5a623;
+  --accent-gold-dim: rgba(245, 166, 35, 0.12);
+  --accent-blue: #3b82f6;
+  --accent-blue-dim: rgba(59, 130, 246, 0.12);
+  --accent-green: #22c55e;
+  --accent-green-dim: rgba(34, 197, 94, 0.12);
+  --accent-red: #ef4444;
+  --accent-red-dim: rgba(239, 68, 68, 0.12);
+  --accent-purple: #a855f7;
+  --accent-purple-dim: rgba(168, 85, 247, 0.12);
+  --accent-cyan: #06b6d4;
+  --accent-cyan-dim: rgba(6, 182, 212, 0.12);
+  --accent-pink: #ec4899;
+  --accent-pink-dim: rgba(236, 72, 153, 0.12);
+  --accent-amber: #f59e0b;
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(99, 118, 156, 0.12);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 40px rgba(245, 166, 35, 0.08);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --font: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, sans-serif;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s ease;
+}
+
+/* =====================================================
+   LIGHT THEME
+===================================================== */
+html.light {
+  --bg-primary: #f5f6fa;
+  --bg-secondary: #eef0f5;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-card-solid: #ffffff;
+  --bg-card-hover: rgba(255, 255, 255, 1);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(245, 166, 35, 0.4);
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a5568;
+  --text-muted: #8896ab;
+  --accent-gold: #d4900a;
+  --accent-gold-dim: rgba(212, 144, 10, 0.1);
+  --accent-blue: #2563eb;
+  --accent-blue-dim: rgba(37, 99, 235, 0.1);
+  --accent-green: #16a34a;
+  --accent-green-dim: rgba(22, 163, 74, 0.1);
+  --accent-red: #dc2626;
+  --accent-red-dim: rgba(220, 38, 38, 0.1);
+  --accent-purple: #9333ea;
+  --accent-purple-dim: rgba(147, 51, 234, 0.1);
+  --accent-cyan: #0891b2;
+  --accent-cyan-dim: rgba(8, 145, 178, 0.1);
+  --accent-pink: #db2777;
+  --accent-pink-dim: rgba(219, 39, 119, 0.1);
+  --accent-amber: #d97706;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 32px rgba(0,0,0,0.08);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.1);
+  --shadow-glow: 0 0 40px rgba(245, 166, 35, 0.06);
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(245, 166, 35, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.02) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+html.light body::before {
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(245, 166, 35, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(245, 166, 35, 0.1); }
+  50% { box-shadow: 0 0 30px rgba(245, 166, 35, 0.2); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   APP CONTAINER
+===================================================== */
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+header {
+  background: linear-gradient(135deg, #0d1425 0%, #1a2542 40%, #0f1d3d 100%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease;
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+
+html.light header {
+  background: linear-gradient(135deg, #f8f9fb 0%, #eef0f5 40%, #f0f2f7 100%);
+  border-color: rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-md);
+}
+
+html.light header::after {
+  background: linear-gradient(90deg, transparent, rgba(212, 144, 10, 0.4), transparent);
+}
+
+html.light h1::first-line {
+  background: linear-gradient(135deg, #d4900a, #b8860b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.light header .btn {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.08);
+  color: var(--text-secondary);
+}
+
+html.light header .btn:hover {
+  background: rgba(212, 144, 10, 0.12);
+  border-color: rgba(212, 144, 10, 0.3);
+  color: var(--accent-gold);
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 40%, rgba(245, 166, 35, 0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 166, 35, 0.3), transparent);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+
+h1::first-line {
+  background: linear-gradient(135deg, #f5a623, #fcd34d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* =====================================================
+   HEADER BUTTON (settings)
+===================================================== */
+header .btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+  backdrop-filter: blur(10px);
+  transition: var(--transition);
+}
+
+header .btn:hover {
+  background: rgba(245, 166, 35, 0.15);
+  border-color: rgba(245, 166, 35, 0.3);
+  color: var(--accent-gold);
+  transform: rotate(30deg);
+}
+
+/* =====================================================
+   THEME TOGGLE
+===================================================== */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-toggle-btn {
+  width: 52px;
+  height: 28px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.theme-toggle-btn::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+  transition: var(--transition);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+html.light .theme-toggle-btn {
+  background: rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.12);
+}
+
+html.light .theme-toggle-btn::after {
+  right: auto;
+  left: 3px;
+  background: #3b82f6;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.theme-toggle-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   CONNECTION NOTICE
+===================================================== */
+.notice {
+  background: var(--accent-gold-dim);
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  color: var(--accent-gold);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  animation: fadeIn 0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+.notice.success-box {
+  background: var(--accent-green-dim);
+  border-color: rgba(34, 197, 94, 0.2);
+  color: var(--accent-green);
+}
+
+.notice.error-box {
+  background: var(--accent-red-dim);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: var(--accent-red);
+  word-break: break-word;
+}
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+nav {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 6px 4px 16px;
+  margin-bottom: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  animation: fadeIn 0.5s ease 0.1s both;
+}
+
+nav::-webkit-scrollbar { display: none; }
+
+nav button {
+  white-space: nowrap;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  padding: 12px 22px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+nav button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.1), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+nav button:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+nav button:hover::before { opacity: 1; }
+
+nav button.active {
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.15), rgba(245, 166, 35, 0.08));
+  color: var(--accent-gold);
+  border-color: rgba(245, 166, 35, 0.3);
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.08);
+  letter-spacing: 0.01em;
+}
+
+nav button.active::before { opacity: 1; }
+
+/* =====================================================
+   VIEWS
+===================================================== */
+.view {
+  display: none;
+  animation: fadeInUp 0.4s ease;
+}
+
+.view.active { display: block; }
+
+/* =====================================================
+   SECTION
+===================================================== */
+.section {
+  margin-top: 24px;
+}
+
+.section h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =====================================================
+   GRIDS
+===================================================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  animation: fadeInUp 0.5s ease 0.15s both;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* =====================================================
+   CARDS
+===================================================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(20px);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md), 0 0 30px rgba(245, 166, 35, 0.04);
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+   STAT CARDS
+===================================================== */
+.card.stat {
+  text-align: center;
+  padding: 22px 16px;
+  position: relative;
+}
+
+.card.stat::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.card.stat:hover::after { opacity: 1; }
+
+.card.stat small {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card.stat strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  margin-top: 10px;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* =====================================================
+   ROW
+===================================================== */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* =====================================================
+   TYPOGRAPHY HELPERS
+===================================================== */
+.muted {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.danger { color: var(--accent-red); }
+.success { color: var(--accent-green); }
+
+/* =====================================================
+   PILLS
+===================================================== */
+.pill {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =====================================================
+   TASKS
+===================================================== */
+.task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: var(--transition-fast);
+}
+
+.task:last-child { border-bottom: 0; }
+
+.task:hover {
+  background: rgba(255,255,255,0.02);
+  margin: 0 -12px;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+  position: relative;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.2;
+}
+
+.red { background: var(--accent-red); }
+.yellow { background: var(--accent-amber); }
+.green-dot { background: var(--accent-green); }
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+.btn {
+  border: 0;
+  background: linear-gradient(135deg, var(--accent-gold), #e09400);
+  color: #0a0f1e;
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.3);
+}
+
+.btn:hover::before { opacity: 1; }
+
+.btn:active { transform: translateY(0); }
+
+.btn.green {
+  background: linear-gradient(135deg, var(--accent-green), #16a34a);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+}
+
+.btn.green:hover {
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+}
+
+.btn.red {
+  background: linear-gradient(135deg, var(--accent-red), #dc2626);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.btn.red:hover {
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+}
+
+.btn.light {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.btn.light:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: none;
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+.table-wrap {
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: right;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+}
+
+th {
+  background: rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  position: sticky;
+  top: 0;
+}
+
+tr {
+  transition: var(--transition-fast);
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* =====================================================
+   ACCORDION
+===================================================== */
+.accounting-accordion {
+  margin-top: 12px;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(20px);
+  transition: var(--transition);
+}
+
+.accounting-accordion:hover {
+  border-color: var(--border-hover);
+}
+
+.accounting-accordion summary {
+  list-style: none;
+  padding: 18px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: var(--transition);
+  color: var(--text-primary);
+}
+
+.accounting-accordion summary::-webkit-details-marker { display: none; }
+
+.accounting-accordion summary::after {
+  content: "＋";
+  font-size: 20px;
+  color: var(--text-muted);
+  font-weight: 400;
+  transition: var(--transition);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+}
+
+.accounting-accordion[open] summary::after {
+  content: "−";
+  background: var(--accent-gold-dim);
+  color: var(--accent-gold);
+}
+
+.accounting-accordion[open] summary {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.accounting-accordion summary:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.accordion-content {
+  padding: 18px;
+  animation: slideDown 0.3s ease;
+}
+
+.accounting-accordion + .accounting-accordion {
+  margin-top: 10px;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal.show {
+  display: flex;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-color);
+  width: min(650px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-lg) var(--radius-lg);
+  padding: 28px;
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-box h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.modal-box .actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+.empty {
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* =====================================================
+   LATEST RECORDS
+===================================================== */
+.latest-record {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 10px;
+  background: rgba(255,255,255,0.02);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.latest-record:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--border-hover);
+}
+
+.latest-record summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.latest-record summary::-webkit-details-marker { display: none; }
+
+.latest-record-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.latest-record-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.latest-record-meta {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.latest-record-amount {
+  font-weight: 800;
+  white-space: nowrap;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.latest-work { border-right: 3px solid var(--accent-green); }
+.latest-payment { border-right: 3px solid var(--accent-blue); }
+.latest-purchase { border-right: 3px solid var(--accent-amber); }
+.latest-personal { border-right: 3px solid var(--accent-purple); }
+.latest-expense { border-right: 3px solid var(--accent-pink); }
+.latest-worker { border-right: 3px solid var(--accent-cyan); }
+.latest-daily-report { border-right: 3px solid var(--text-muted); }
+
+/* =====================================================
+   FORMS
+===================================================== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.field label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.field input,
+.field select {
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+}
+
+.field input::placeholder {
+  color: var(--text-muted);
+}
+
+/* =====================================================
+   DETAILS (nested)
+===================================================== */
+details {
+  margin-top: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  transition: var(--transition);
+}
+
+details:hover {
+  border-color: var(--border-hover);
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+footer {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  padding: 40px 0 20px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 40px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 700px) {
+  .app { padding: 12px; }
+  header { padding: 20px; border-radius: var(--radius-lg); }
+  h1 { font-size: 18px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .cards { grid-template-columns: 1fr; }
+  .card.stat strong { font-size: 18px; }
+  nav button { padding: 12px 18px; font-size: 14px; gap: 6px; flex-shrink: 0; }
+  .modal-box { padding: 20px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <div class="header">
+        <div>
+            <h1>🏗️ داشبورد مدیریت پروژه یاشار</h1>
+            <div class="subtitle">
+                پروژه‌ها • پیمانکاران • حسابداری • کارفرماها
+            </div>
+        </div>
+
+        <div class="theme-toggle">
+            <span class="theme-toggle-label">☀️</span>
+            <button
+                class="theme-toggle-btn"
+                id="themeToggle"
+                onclick="toggleTheme()"
+                title="تغییر تم"
+            ></button>
+            <span class="theme-toggle-label">🌙</span>
+        </div>
+
+        <button class="btn" onclick="openModal('data')">
+            ⚙️
+        </button>
+    </div>
+</header>
+
+<div id="connectionNotice" class="notice">
+    🔄 در حال اتصال به Supabase...
+</div>
+
+<nav id="nav"></nav>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="view active">
+
+    <div id="stats" class="grid"></div>
+    <div class="section">
+    <div class="card">
+
+        <div class="row">
+            <div>
+
+                <h2 style="margin:0">
+                    🕘 آخرین ثبت‌ها
+                </h2>
+
+                <p class="muted" style="margin-bottom:0">
+                    آخرین فعالیت‌های ثبت‌شده در سیستم
+                </p>
+            </div>
+
+            <button
+                class="btn light"
+                onclick="loadLatestRecords()"
+            >
+                🔄
+            </button>
+        </div>
+
+        <div
+            id="latestRecords"
+            style="margin-top:12px"
+        >
+            <div class="empty">
+                ⏳ در حال دریافت آخرین ثبت‌ها...
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    <div class="section">
+        <h2>👷 پیمانکاران</h2>
+        <div id="contractorCards" class="cards"></div>
+    </div>
+
+    <div class="section">
+        <h2>🏢 آرتا پیشرو</h2>
+        <div id="employerCard" class="card"></div>
+    </div>
+
+</section>
+
+
+<!-- PROJECTS -->
+
+<section id="projects" class="view">
+
+    <div class="toolbar">
+        <button class="btn" onclick="showOnlineEntryHelp()">
+            ＋ پروژه جدید
+        </button>
+    </div>
+
+    <div id="projectsList" class="cards"></div>
+
+</section>
+
+
+<section id="dailyReports" class="view">
+
+    <div class="card">
+
+        <div class="row">
+
+            <div>
+                <h2 style="margin:0">
+                    📋 گزارش روزانه کارگاه
+                </h2>
+
+                <p class="muted">
+                    گزارش روزانه وضعیت پروژه‌ها
+                </p>
+            </div>
+
+            <button
+                class="btn"
+                onclick="loadDailyReports()"
+            >
+                 🔄 بروزرسانی
+            </button>
+
+        </div>
+
+        <div
+            id="dailyReportsList"
+            style="margin-top:15px;"
+        >
+
+            <div class="empty">
+                📭 هنوز گزارشی ثبت نشده است.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="contractors" class="view">
+
+    <div class="toolbar">
+        <button class="btn" onclick="showOnlineEntryHelp()">
+            ＋ پیمانکار جدید
+        </button>
+    </div>
+
+    <div id="contractorsList"></div>
+
+</section>
+
+
+<section id="accounting" class="view">
+
+  <div class="toolbar">
+
+    <button
+      class="btn"
+      onclick="showOnlineEntryHelp()"
+    >
+      ＋ کار انجام‌شده
+    </button>
+
+    <button
+      class="btn green"
+      onclick="showOnlineEntryHelp()"
+    >
+      ＋ پرداخت
+    </button>
+
+  </div>
+
+
+  <details class="accounting-accordion">
+
+    <summary>
+      👷 حساب پیمانکاران
+    </summary>
+
+
+    <div class="accordion-content">
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                پیمانکار
+              </th>
+
+              <th>
+                کار انجام‌شده
+              </th>
+
+              <th>
+                پرداخت
+              </th>
+
+              <th>
+                مانده
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="accounts">
+
+            <tr>
+
+              <td
+                colspan="4"
+                style="text-align:center"
+              >
+                ⏳ در حال دریافت حساب پیمانکاران...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </details>
+
+
+  <details class="accounting-accordion">
+
+    <summary>
+      👤 حساب‌های شخصی
+    </summary>
+
+
+    <div class="accordion-content">
+
+      <div class="row">
+
+        <div>
+
+          <h2 style="margin:0">
+            👤 حساب‌های شخصی
+          </h2>
+
+          <p class="muted">
+            بدهی‌ها و طلب‌های شخصی، جدا از حساب پروژه‌ها
+          </p>
+
+        </div>
+
+
+        <button
+          class="btn light"
+          onclick="loadPersonalAccounts()"
+        >
+          🔄 تازه‌سازی
+        </button>
+
+      </div>
+
+
+      <div
+        id="personalAccountsSummary"
+        style="
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+          gap:10px;
+          margin:15px 0;
+        "
+      ></div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                شخص
+              </th>
+
+              <th>
+                نوع حساب
+              </th>
+
+              <th>
+                مبلغ
+              </th>
+
+              <th>
+                پرداخت‌شده
+              </th>
+
+              <th>
+                مانده
+              </th>
+
+              <th>
+                تاریخ
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="personalAccountsTable">
+
+            <tr>
+
+              <td
+                colspan="6"
+                style="text-align:center"
+              >
+                ⏳ در حال دریافت حساب‌های شخصی...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </details>
+
+
+  <details class="accounting-accordion">
+
+    <summary>
+      🛍️ هزینه‌های شخصی
+    </summary>
+
+
+    <div class="accordion-content">
+
+      <div class="row">
+
+        <div>
+
+          <h2 style="margin:0">
+            🛍️ هزینه‌های شخصی
+          </h2>
+
+          <p class="muted">
+            خریدها و هزینه‌های روزمره شخصی
+          </p>
+
+        </div>
+
+
+        <button
+          class="btn light"
+          onclick="loadPersonalExpenses()"
+        >
+          🔄 تازه‌سازی
+        </button>
+
+      </div>
+
+
+      <div
+        id="personalExpensesSummary"
+        style="
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+          gap:10px;
+          margin:15px 0;
+        "
+      ></div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                مورد
+              </th>
+
+              <th>
+                دسته‌بندی
+              </th>
+
+              <th>
+                مبلغ
+              </th>
+
+              <th>
+                تاریخ
+              </th>
+
+              <th>
+                توضیحات
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="personalExpensesTable">
+
+            <tr>
+
+              <td
+                colspan="5"
+                style="text-align:center"
+              >
+                ⏳ در حال دریافت هزینه‌های شخصی...
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </details>
+
+</section>
+
+
+<section id="tasks" class="view">
+
+    <div class="toolbar">
+
+        <button class="btn" onclick="showOnlineEntryHelp()">
+            ＋ کار جدید
+        </button>
+
+    </div>
+
+    <div id="tasksList" class="cards"></div>
+
+</section>
+
+<section id="workerActivities" class="view">
+  <div class="toolbar">
+    <button class="btn" onclick="loadWorkerActivities()">🔄 تازه‌سازی</button>
+  </div>
+
+  <div class="card">
+    <h2>👷 فعالیت نیروها</h2>
+
+    <p class="muted">
+      اضافه‌کاری، کارهای خاص و فعالیت روزانه نیروها
+    </p>
+
+    <div id="workerActivitiesList">
+      <div class="empty">
+        در حال دریافت اطلاعات...
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="employers" class="view">
+
+    <div id="employersList" class="cards"></div>
+
+</section>
+
+
+<section id="inventory" class="view">
+
+    <div class="toolbar">
+
+        <button
+            class="btn light"
+            onclick="loadInventory()"
+        >
+            🔄 تازه‌سازی
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2 style="margin-top:0">
+            📦 موجودی انبار
+        </h2>
+
+        <p class="muted">
+            فقط کالاها و اقلامی که موجودی فیزیکی دارند
+        </p>
+
+        <div id="inventoryList">
+
+            <div class="empty">
+                ⏳ در حال دریافت موجودی انبار...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="purchases" class="view">
+  <div class="toolbar">
+    <button class="btn" onclick="loadPurchases()">🔄 تازه‌سازی</button>
+  </div>
+
+  <div class="card">
+    <h2>🛒 خریدها</h2>
+    <p class="muted">خریدهای ثبت‌شده برای پروژه‌ها</p>
+
+    <div id="purchasesList">
+      <div class="empty">
+        ⏳ در حال دریافت خریدها...
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+
+    اطلاعات حسابداری از Supabase به‌صورت آنلاین خوانده می‌شود.
+
+    <br>
+
+    ثبت تغییرات حسابداری فعلاً از داخل ChatGPT انجام می‌شود.
+
+</footer>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+
+    <div id="modalBox" class="modal-box"></div>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+===================================================== */
+
+const SUPABASE_URL =
+    "https://tqjkourdfxcdopstqrzp.supabase.co";
+
+
+/*
+   یاشار:
+   فقط مقدار زیر را با Publishable Key واقعی خودت عوض کن.
+*/
+
+const SUPABASE_KEY =
+    "sb_publishable_WfWO41Jr6Ix03fa1tv9txg_fQ8Dd3qw";
+
+
+/* =====================================================
+   CREATE CLIENT
+===================================================== */
+
+let sb = null;
+
+try{
+
+    if(
+        !SUPABASE_KEY ||
+        SUPABASE_KEY === "PASTE_YOUR_PUBLISHABLE_KEY_HERE"
+    ){
+
+        throw new Error(
+            "Publishable Key هنوز داخل فایل قرار نگرفته است."
+        );
+
+    }
+
+    sb =
+        supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+    console.log(
+        "SUPABASE CLIENT CREATED"
+    );
+
+}
+
+catch(error){
+
+    showConnectionError(
+        "خطا در ساخت اتصال Supabase",
+        error
+    );
+
+}
+
+
+/* =====================================================
+   DATABASE
+===================================================== */
+
+let db = {
+
+    projects:{},
+
+    contractors:{}
+
+};
+
+
+/* =====================================================
+   INITIAL TASKS
+===================================================== */
+
+const INITIAL_TASKS = {
+
+"خاوران":[
+
+    ["اجرای نرده راه پله","red"],
+    ["کاشی کاری لابی","yellow"],
+    ["ورودی جلوی آسانسور","yellow"],
+    ["راه اندازی آسانسور","yellow"],
+    ["سقف کاذب پارکینگ","yellow"],
+    ["نصبیات برقی","yellow"],
+    ["کف حیاط","yellow"],
+    ["کف پارکینگ","yellow"],
+    ["اصلاحیه وال مش","yellow"]
+
+],
+
+"باغ فردوس":[
+
+    ["اجرای وال پست های طبقات","yellow"],
+    ["اجرای دیوار های طبقات بعد اجرای وال پست","yellow"]
+
+],
+
+"گازران":[
+
+    ["تمیزکاری روی آهن ها","yellow"]
+
+],
+
+"لاله":[],
+
+"قطب":[
+
+    ["تمیزکاری و ضدزنگ زنی درب","yellow"]
+
+],
+
+"قونقا":[],
+
+"همایش":[
+
+    ["اجرای دیوار","yellow"],
+    ["سیمانکاری","yellow"]
+
+]
+
+};
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function money(number){
+
+    return new Intl.NumberFormat(
+        "fa-IR"
+    ).format(
+        Number(number)||0
+    ) + " ریال";
+
+}
+
+
+function dateFa(date){
+
+    if(!date)return null;
+
+    try{
+
+        return new Date(
+            date + "T00:00:00"
+        ).toLocaleDateString("fa-IR");
+
+    }
+
+    catch{
+
+        return date;
+
+    }
+
+}
+
+
+function esc(text){
+
+    return String(
+        text ?? ""
+    ).replace(
+        /[&<>"']/g,
+
+        c=>({
+
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+
+        }[c])
+
+    );
+
+}
+
+
+/* =====================================================
+   CONNECTION ERROR
+===================================================== */
+
+function showConnectionError(
+    title,
+    error
+){
+
+    const notice =
+        document.getElementById(
+            "connectionNotice"
+        );
+
+    if(!notice)return;
+
+    notice.className =
+        "notice error-box";
+
+    notice.innerHTML =
+
+        "❌ <b>" +
+        esc(title) +
+        "</b>" +
+
+        "<br><br>" +
+
+        "<small>" +
+
+        esc(
+            error?.message ||
+            String(error)
+        ) +
+
+        "</small>";
+
+}
+
+
+/* =====================================================
+   CONNECTION SUCCESS
+===================================================== */
+
+function showConnectionSuccess(
+    message
+){
+
+    const notice =
+        document.getElementById(
+            "connectionNotice"
+        );
+
+    notice.className =
+        "notice success-box";
+
+    notice.textContent =
+        "✅ " + message;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function buildNavigation(){
+
+    const items = [
+
+    ["dashboard", "🏠 داشبورد"],
+
+    ["projects", "🏗️ پروژه‌ها"],
+
+    ["dailyReports", "📋 گزارش روزانه کارگاه"],
+
+    ["contractors", "👷 پیمانکاران"],
+
+    ["accounting", "💰 حسابداری"],
+
+    ["tasks", "📋 کارها"],
+
+    ["workerActivities", "👷 فعالیت نیروها"],
+
+    ["employers", "🏢 کارفرماها"],
+
+    ["inventory", "📦 انبار"],
+
+    ["purchases", "🛒 خرید"]
+
+    ];
+
+    document.getElementById(
+        "nav"
+    ).innerHTML =
+
+        items.map(
+            (item,index)=>`
+
+            <button
+                class="${
+                    index===0
+                    ?
+                    "active"
+                    :
+                    ""
+                }"
+
+                onclick="
+                    goTo(
+                        '${item[0]}',
+                        this
+                    )
+                "
+            >
+
+                ${item[1]}
+
+            </button>
+
+            `
+        ).join("");
+
+}
+
+
+function goTo(
+    id,
+    button
+){
+    document
+        .querySelectorAll(
+            "nav button"
+        )
+        .forEach(
+            b => b.classList.remove(
+                "active"
+            )
+        );
+    if (button) {
+        button.classList.add(
+            "active"
+        );
+    }
+    document
+        .querySelectorAll(
+            ".view"
+        )
+        .forEach(
+            v => v.classList.remove(
+                "active"
+            )
+        );
+    const view =
+        document.getElementById(id);
+    if (!view) {
+        console.error(
+            "VIEW پیدا نشد:",
+            id
+        );
+        return;
+    }
+    view.classList.add(
+        "active"
+    );
+    if (id === "dailyReports") {
+        loadDailyReports();
+    }
+    if (id === "inventory") {
+        loadInventory();
+    }
+    if (id === "purchases") {
+        loadPurchases();
+    }
+    if (id === "workerActivities") {
+        loadWorkerActivities();
+    }
+    if (id === "dashboard") {
+        loadLatestRecords();
+    }
+}
+
+
+/* =====================================================
+   ACCOUNTING HELPERS
+===================================================== */
+
+function totalWork(name){
+
+    return (
+
+        db.contractors[name]?.work || []
+
+    )
+
+    .filter(
+        item =>
+            item.status !== "replaced"
+    )
+
+    .reduce(
+
+        (sum,item)=>
+            sum +
+            Number(
+                item.amount || 0
+            ),
+
+        0
+
+    );
+
+}
+
+
+function totalPayments(name){
+
+    return (
+
+        db.contractors[name]?.payments || []
+
+    )
+
+    .reduce(
+
+        (sum,item)=>
+            sum +
+            Number(
+                item.amount || 0
+            ),
+
+        0
+
+    );
+
+}
+
+
+function balance(name){
+
+
+    return (
+
+        totalWork(name)
+        -
+        totalPayments(name)
+
+    );
+
+}
+
+
+/* =====================================================
+   SUPABASE TEST
+===================================================== */
+
+async function testSupabase(){
+
+    if(!sb){
+
+        throw new Error(
+            "Supabase client ساخته نشده است."
+        );
+
+    }
+
+
+    console.log(
+        "Testing Supabase..."
+    );
+
+
+    const result =
+        await sb
+        .from("projects")
+        .select("id,name")
+        .limit(1);
+
+
+    console.log(
+        "PROJECT TEST RESULT:",
+        result
+    );
+
+
+    if(result.error){
+
+        throw result.error;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   LOAD DATA
+===================================================== */
+
+async function loadData(){
+
+    const notice =
+        document.getElementById(
+            "connectionNotice"
+        );
+
+
+    notice.className =
+        "notice";
+
+    notice.textContent =
+        "🔄 در حال اتصال به Supabase...";
+
+
+    try{
+
+        await testSupabase();
+
+
+        const [
+
+            pRes,
+
+            cRes,
+
+            tRes
+
+        ] = await Promise.all([
+
+            sb
+            .from("projects")
+            .select(
+                "id,name,employer,created_at"
+            )
+            .order("name"),
+
+            sb
+            .from("contractors")
+            .select(
+                "id,name,created_at"
+            )
+            .order("name"),
+
+            sb
+            .from("transactions")
+            .select(
+                "id,contractor_id,project_id,type,description,amount_rial,transaction_date,status,created_at"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:true
+                }
+            )
+
+        ]);
+
+
+        if(pRes.error){
+
+            throw new Error(
+                "projects: " +
+                pRes.error.message
+            );
+
+        }
+
+
+        if(cRes.error){
+
+            throw new Error(
+                "contractors: " +
+                cRes.error.message
+            );
+
+        }
+
+
+        if(tRes.error){
+
+            throw new Error(
+                "transactions: " +
+                tRes.error.message
+            );
+
+        }
+
+
+        db = {
+
+            projects:{},
+
+            contractors:{}
+
+        };
+
+
+        (
+
+            pRes.data || []
+
+        ).forEach(
+
+            project=>{
+
+                db.projects[
+                    project.name
+                ]={
+
+                    id:
+                        project.id,
+
+                    employer:
+                        project.employer ||
+                        null,
+
+                    tasks:
+                        INITIAL_TASKS[
+                            project.name
+                        ] || [],
+
+                    completed:[]
+
+                };
+
+            }
+
+        );
+
+
+        (
+
+            cRes.data || []
+
+        ).forEach(
+
+            contractor=>{
+
+                db.contractors[
+                    contractor.name
+                ]={
+
+                    id:
+                        contractor.id,
+
+                    work:[],
+
+                    payments:[]
+
+                };
+
+            }
+
+        );
+
+
+        const contractorsById =
+            Object.fromEntries(
+
+                (
+
+                    cRes.data || []
+
+                ).map(
+
+                    c=>[
+                        c.id,
+                        c.name
+                    ]
+
+                )
+
+            );
+
+
+        const projectsById =
+            Object.fromEntries(
+
+                (
+
+                    pRes.data || []
+
+                ).map(
+
+                    p=>[
+                        p.id,
+                        p.name
+                    ]
+
+                )
+
+            );
+
+
+        (
+
+            tRes.data || []
+
+        ).forEach(
+
+            transaction=>{
+
+                const contractor =
+                    contractorsById[
+                        transaction.contractor_id
+                    ];
+
+                const project =
+                    projectsById[
+                        transaction.project_id
+                    ];
+
+                if(
+                    !contractor ||
+                    !db.contractors[
+                        contractor
+                    ]
+                ){
+
+                    return;
+
+                }
+
+
+                const item={
+
+                    id:
+                        transaction.id,
+
+                    project:
+                        project ||
+                        "نامشخص",
+
+                    description:
+                        transaction.description ||
+                        "",
+
+                    amount:
+                        Number(
+                            transaction.amount_rial ||
+                            0
+                        ),
+
+                    date:
+                        transaction.transaction_date,
+
+                    status:
+                        transaction.status
+
+                };
+
+
+                if(
+                    transaction.type ===
+                    "work"
+                ){
+
+                    db.contractors[
+                        contractor
+                    ].work.push(item);
+
+                }
+
+
+                else if(
+                    transaction.type ===
+                    "payment"
+                ){
+
+                    db.contractors[
+                        contractor
+                    ].payments.push(item);
+
+                }
+
+            }
+
+        );
+
+
+        showConnectionSuccess(
+
+            "اتصال آنلاین به Supabase موفق است. " +
+
+            `${pRes.data?.length || 0} پروژه، ` +
+
+            `${cRes.data?.length || 0} پیمانکار و ` +
+
+            `${tRes.data?.length || 0} تراکنش دریافت شد.`
+
+        );
+
+
+        render();
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "SUPABASE ERROR:",
+            error
+        );
+
+        showConnectionError(
+            "خطا در اتصال به Supabase",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render(){
+
+    buildNavigation();
+
+
+    const names =
+        Object.keys(
+            db.contractors
+        );
+
+
+    let totalW=0;
+    let totalP=0;
+
+
+    names.forEach(
+
+        name=>{
+
+            totalW +=
+                totalWork(name);
+
+            totalP +=
+                totalPayments(name);
+
+        }
+
+    );
+
+
+    /* STATS */
+
+    document.getElementById(
+        "stats"
+    ).innerHTML = `
+
+        <div class="card stat">
+
+            <small>
+                پروژه‌ها
+            </small>
+
+            <strong>
+                ${
+                    Object.keys(
+                        db.projects
+                    ).length
+                }
+            </strong>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <small>
+                پیمانکاران
+            </small>
+
+            <strong>
+                ${names.length}
+            </strong>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <small>
+                کل کار انجام‌شده
+            </small>
+
+            <strong>
+                ${money(totalW)}
+            </strong>
+
+        </div>
+
+
+        <div class="card stat">
+
+            <small>
+                کل مانده بدهی
+            </small>
+
+            <strong class="danger">
+
+                ${money(totalW-totalP)}
+            </strong>
+
+        </div>
+
+    `;
+
+
+    /* CONTRACTOR CARDS */
+
+    document.getElementById(
+        "contractorCards"
+    ).innerHTML =
+
+        names.map(
+
+            name=>`
+
+            <div class="card">
+
+                <div class="row">
+
+                    <strong>
+                        👤 ${esc(name)}
+                    </strong>
+
+                    <strong
+                        class="${
+                            balance(name)>=0
+                            ?
+                            "danger"
+                            :
+                            "success"
+                        }"
+                    >
+                        ${money(balance(name))}
+                    </strong>
+
+                </div>
+
+
+                <p class="muted">
+
+                    کار انجام‌شده:
+                    ${money(totalWork(name))}
+
+                    <br>
+
+                    پرداخت:
+                    ${money(totalPayments(name))}
+
+                </p>
+
+            </div>
+
+            `
+        ).join("");
+
+
+    /* ARTA */
+
+    const artaProjects =
+        Object.keys(
+            db.projects
+        ).filter(
+
+            project=>
+                db.projects[
+                    project
+                ].employer ===
+                "آرتا پیشرو"
+
+        );
+
+
+    let artaWork=0;
+    let artaPayments=0;
+
+
+    names.forEach(
+
+        name=>{
+
+            db.contractors[
+                name
+            ].work.forEach(
+
+                item=>{
+
+                    if(
+                        artaProjects.includes(
+                            item.project
+                        )
+                    ){
+
+                        if(
+                            item.status !==
+                            "replaced"
+                        ){
+
+                            artaWork +=
+                                Number(
+                                    item.amount ||
+                                    0
+                                );
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+
+            db.contractors[
+                name
+            ].payments.forEach(
+
+                payment=>{
+
+                    if(
+                        !payment.project ||
+                        artaProjects.includes(
+                            payment.project
+                        )
+                    ){
+
+                        artaPayments +=
+                            Number(
+                                payment.amount ||
+                                0
+                            );
+
+                    }
+
+                }
+
+            );
+
+        }
+
+    );
+
+
+    document.getElementById(
+        "employerCard"
+    ).innerHTML = `
+
+        <div class="row">
+
+            <div>
+
+                <strong>
+                    🏢 آرتا پیشرو
+                </strong>
+
+                <p class="muted">
+
+                    ${artaProjects.join(" • ")}
+
+                </p>
+
+            </div>
+
+
+            <strong class="danger">
+
+                ${money(
+                    artaWork -
+                    artaPayments
+                )}
+
+            </strong>
+
+        </div>
+
+
+        <p>
+
+            کل کار:
+            <b>
+                ${money(artaWork)}
+            </b>
+
+            <br>
+
+            پرداخت:
+            <b>
+                ${money(artaPayments)}
+            </b>
+
+            <br>
+
+            مانده:
+            <b class="danger">
+                ${money(
+                    artaWork -
+                    artaPayments
+                )}
+            </b>
+
+        </p>
+
+    `;
+
+
+    /* PROJECTS */
+
+    document.getElementById(
+        "projectsList"
+    ).innerHTML =
+
+        Object.entries(
+            db.projects
+        ).map(
+
+            ([project,data])=>`
+
+            <div class="card">
+
+                <div class="row">
+
+                    <strong>
+                        🏗️ ${esc(project)}
+                    </strong>
+
+                    <span class="pill">
+
+                        ${esc(
+                            data.employer ||
+                            "مستقل"
+                        )}
+
+                    </span>
+
+                </div>
+
+
+                ${
+                    data.tasks.length
+
+                    ?
+
+                    data.tasks.map(
+
+                        task=>`
+
+                        <div class="task">
+
+                            <span
+                                class="dot ${esc(task[1])}"
+                            ></span>
+
+                            <span>
+                                ${esc(task[0])}
+                            </span>
+
+                        </div>
+
+                        `
+                    ).join("")
+
+                    :
+
+                    `<p class="muted">
+                        کار باقی‌مانده‌ای ندارد.
+                    </p>`
+                }
+
+            </div>
+
+            `
+        ).join("");
+
+
+    /* CONTRACTORS */
+
+    document.getElementById(
+        "contractorsList"
+    ).innerHTML =
+
+        names.map(
+
+            name=>`
+
+            <div
+                class="card"
+                style="margin-bottom:12px"
+            >
+
+                <div class="row">
+
+                    <strong>
+                        👤 ${esc(name)}
+                    </strong>
+
+                    <strong class="danger">
+                        ${money(
+                            balance(name)
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <details open>
+
+                    <summary>
+                        کارهای انجام‌شده
+                    </summary>
+
+
+                    ${
+                        db.contractors[
+                            name
+                        ].work.map(
+
+                            item=>`
+
+                            <p>
+
+                                ${esc(
+                                    item.project
+                                )}
+
+                                —
+
+                                ${esc(
+                                    item.description
+                                )}
+
+                                <br>
+
+                                <b>
+                                    ${money(
+                                        item.amount
+                                    )}
+                                </b>
+
+                                ${
+                                    item.date
+
+                                    ?
+
+                                    `<span class="muted">
+                                        — ${
+                                            dateFa(
+                                                item.date
+                                            )
+                                        }
+                                    </span>`
+
+                                    :
+
+                                    ""
+                                }
+
+                            </p>
+
+                            `
+                        ).join("")
+
+                        ||
+
+                        "<p class='muted'>موردی نیست.</p>"
+                    }
+                </details>
+
+
+                <details>
+
+                    <summary>
+                        پرداخت‌ها
+                    </summary>
+
+
+                    ${
+                        db.contractors[
+                            name
+                        ].payments.map(
+
+                            payment=>`
+
+                            <p>
+
+                                ${esc(
+                                    payment.description
+                                )}
+
+                                <br>
+
+                                <b class="success">
+
+                                    ${money(
+                                        payment.amount
+                                    )}
+
+                                </b>
+
+                                ${
+                                    payment.date
+
+                                    ?
+
+                                    `<span class="muted">
+                                        — ${
+                                            dateFa(
+                                                payment.date
+                                            )
+                                        }
+                                    </span>`
+
+                                    :
+
+                                    ""
+                                }
+
+                            </p>
+
+                            `
+                        ).join("")
+
+                        ||
+
+                        "<p class='muted'>پرداختی ثبت نشده.</p>"
+                    }
+                </details>
+            </div>
+
+            `
+        ).join("");
+
+
+    /* ACCOUNTING */
+
+    document.getElementById(
+        "accounts"
+    ).innerHTML =
+
+        names.map(
+
+            name=>`
+
+            <tr>
+
+                <td>
+                    ${esc(name)}
+                </td>
+
+                <td>
+                    ${money(
+                        totalWork(name)
+                    )}
+                </td>
+
+                <td class="success">
+
+                    ${money(
+                        totalPayments(name)
+                    )}
+
+                </td>
+
+                <td class="danger">
+
+                    <b>
+                        ${money(
+                            balance(name)
+                        )}
+                    </b>
+
+                </td>
+
+            </tr>
+
+            `
+        ).join("");
+
+
+    /* TASKS */
+
+    document.getElementById(
+        "tasksList"
+    ).innerHTML =
+
+
+        Object.entries(
+            db.projects
+        ).map(
+
+            ([project,data])=>`
+
+            <div class="card">
+
+                <strong>
+                    🏗️ ${esc(project)}
+                </strong>
+
+
+                ${
+                    data.tasks.length
+
+                    ?
+
+                    data.tasks.map(
+
+                        task=>`
+
+                        <div class="task">
+
+                            <span
+                                class="dot ${esc(task[1])}"
+                            ></span>
+
+                            ${esc(task[0])}
+
+                        </div>
+
+                        `
+                    ).join("")
+
+                    :
+
+                    `<p class="muted">
+                        کار باقی‌مانده‌ای نیست.
+                    </p>`
+                }
+
+            </div>
+
+            `
+        ).join("");
+
+
+    /* EMPLOYERS */
+
+    document.getElementById(
+        "employersList"
+    ).innerHTML = `
+
+        <div class="card">
+
+            <strong>
+                🏢 آرتا پیشرو
+            </strong>
+
+            <p class="muted">
+
+                ${artaProjects.join(" • ")}
+
+            </p>
+
+            <p>
+
+                کار:
+                ${money(artaWork)}
+
+                <br>
+
+                پرداخت:
+                ${money(artaPayments)}
+
+                <br>
+
+                <b class="danger">
+
+                    مانده:
+                    ${money(
+                        artaWork -
+                        artaPayments
+                    )}
+
+                </b>
+
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                🏢 پروژه‌های مستقل
+            </strong>
+
+            <p>
+
+                خاوران • باغ فردوس
+
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ONLINE ENTRY HELP
+===================================================== */
+
+function showOnlineEntryHelp(){
+
+    openModal("help");
+
+}
+
+
+function openModal(type){
+
+    let title="";
+    let content="";
+
+
+    if(type==="help"){
+
+        title="ثبت آنلاین";
+
+        content=`
+
+            <div class="notice">
+
+                برای اینکه سایت عمومی نتواند
+                مستقیماً حسابداری را تغییر دهد،
+                ثبت کار و پرداخت از داخل ChatGPT
+                انجام می‌شود.
+
+            </div>
+
+
+            <p>
+                مثلاً همینجا بنویس:
+            </p>
+
+
+            <p>
+
+                <b>
+
+                برای پروژه همایش،
+                پیمانکار آقای نظری،
+                تاریخ ۱۱ مرداد،
+                مبلغ ۴۸۵۷۰۰۰۰ تومان
+                بابت وال‌پست و اصلاح آهن‌ها
+                ثبت کن.
+
+                </b>
+
+            </p>
+
+        `;
+
+    }
+
+
+    else{
+
+        title="وضعیت اتصال";
+
+        content=`
+
+            <p>
+                وضعیت اتصال را از همین صفحه
+                می‌توانی بررسی کنی.
+            </p>
+
+            <button
+                class="btn"
+                onclick="
+                    closeModal();
+                    loadData();
+                "
+            >
+                🔄 تازه‌سازی اطلاعات
+            </button>
+
+        `;
+
+    }
+
+
+    document.getElementById(
+        "modalBox"
+    ).innerHTML=
+
+        `<h3>${title}</h3>
+        ${content}
+
+        <div class="actions">
+
+            <button
+                class="btn light"
+                onclick="closeModal()"
+            >
+                بستن
+            </button>
+
+        </div>`;
+
+
+    document.getElementById(
+        "modal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeModal(){
+
+    document
+        .getElementById("modal")
+        .classList.remove(
+            "show"
+        );
+
+}
+
+document
+    .getElementById("modal")
+    .addEventListener(
+        "click",
+        event=>{
+
+            if(
+                event.target.id ===
+                "modal"
+            ){
+
+                closeModal();
+
+            }
+
+        }
+    );
+async function loadWorkerActivities() {
+  const box =
+    document.getElementById("workerActivitiesList");
+  if (!box) return;
+  box.innerHTML = `
+    <div class="empty">
+      ⏳ در حال دریافت فعالیت‌ها...
+    </div>
+  `;
+  try {
+    if (!sb) {
+      throw new Error(
+        "اتصال به Supabase برقرار نیست."
+      );
+    }
+    const { data, error } = await sb
+      .from("worker_activities")
+      .select(`
+        id,
+        person_name,
+        activity_date,
+        hours,
+        description,
+        project_id,
+        created_at
+      `)
+      .order("activity_date", {
+        ascending: false
+      })
+      .order("created_at", {
+        ascending: false
+      });
+    if (error) {
+      throw error;
+    }
+    if (!data || data.length === 0) {
+      box.innerHTML = `
+        <div class="empty">
+          👷 هنوز فعالیتی ثبت نشده.
+        </div>
+      `;
+      return;
+    }
+    const projects = {};
+    Object.entries(db.projects || {})
+      .forEach(([name, project]) => {
+        if (project && project.id) {
+          projects[String(project.id)] =
+            name;
+        }
+      });
+    function formatWorkerDate(dateString) {
+      if (!dateString) return "-";
+      const value =
+        String(dateString)
+          .slice(0, 10);
+      const parts =
+        value.split("-");
+      if (parts.length !== 3) {
+        return value;
+      }
+      const year =
+        Number(parts[0]);
+      const month =
+        Number(parts[1]);
+      const day =
+        Number(parts[2]);
+      if (
+        !Number.isInteger(year) ||
+        !Number.isInteger(month) ||
+        !Number.isInteger(day)
+      ) {
+        return value;
+      }
+      return new Intl.DateTimeFormat(
+        "fa-IR-u-ca-persian-nu-arabext",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }
+      ).format(
+        new Date(
+          Date.UTC(
+            year,
+            month - 1,
+            day,
+            12,
+            0,
+            0
+          )
+        )
+      );
+    }
+    const groupedByDate = {};
+    data.forEach(item => {
+      if (!item.activity_date) {
+        return;
+      }
+      const date =
+        String(item.activity_date)
+          .slice(0, 10);
+      if (!groupedByDate[date]) {
+        groupedByDate[date] = [];
+      }
+      groupedByDate[date].push(item);
+    });
+    const dates =
+      Object.keys(groupedByDate)
+        .sort((a, b) =>
+          b.localeCompare(a)
+        );
+    box.innerHTML =
+      dates.map(date => {
+        const dayActivities =
+          groupedByDate[date];
+        const people = {};
+        dayActivities.forEach(item => {
+          const person =
+            item.person_name ||
+            "بدون نام";
+          if (!people[person]) {
+            people[person] = {
+              hours: 0,
+              projects: [],
+              descriptions: []
+            };
+          }
+          people[person].hours +=
+            Number(item.hours || 0);
+          let projectName = "";
+          if (item.project_id) {
+            projectName =
+              projects[
+                String(item.project_id)
+              ] || "";
+          }
+          if (
+            projectName &&
+            !people[person].projects.includes(
+              projectName
+            )
+          ) {
+            people[person].projects.push(
+              projectName
+            );
+          }
+          if (item.description) {
+            if (
+              !people[person]
+                .descriptions
+                .includes(
+                  item.description
+                )
+            ) {
+              people[person]
+                .descriptions
+                .push(
+                  item.description
+                );
+            }
+          }
+        });
+        const peopleEntries =
+          Object.entries(people);
+        return `
+          <details
+            class="accounting-accordion"
+          >
+            <summary>
+              <span>
+                📅 ${formatWorkerDate(date)}
+              </span>
+              <span class="pill">
+                ${peopleEntries.length}
+                نفر
+              </span>
+            </summary>
+            <div
+              class="accordion-content"
+            >
+              ${
+                peopleEntries.length
+                ?
+                peopleEntries.map(
+                  ([person, info]) => `
+                    <div
+                      style="
+                        background:rgba(255,255,255,0.03);
+                        border:1px solid var(--border-color);
+                        border-radius:14px;
+                        padding:16px;
+                        margin-bottom:10px;
+                      "
+                    >
+                      <div
+                        style="
+                          display:flex;
+                          justify-content:space-between;
+                          align-items:center;
+                          gap:10px;
+                        "
+                      >
+                        <strong>
+                          👤 ${esc(person)}
+                        </strong>
+                        <strong
+                          class="success"
+                        >
+                          ⏱️ ${info.hours}
+                          ساعت
+                        </strong>
+                      </div>
+                      ${
+                        info.projects.length
+                        ?
+                        `
+                          <div
+                            class="muted"
+                            style="
+                              margin-top:8px
+                            "
+                          >
+                            🏗️ پروژه:
+                            ${esc(
+                              info.projects.join(
+                                " • "
+                              )
+                            )}
+                          </div>
+                        `
+                        :
+                        ""
+                      }
+                      ${
+                        info.descriptions.length
+                        ?
+                        `
+                          <div
+                            class="muted"
+                            style="
+                              margin-top:7px
+                            "
+                          >
+                            📝
+                            ${esc(
+                              info.descriptions.join(
+                                " • "
+                              )
+                            )}
+                          </div>
+                        `
+                        :
+                        ""
+                      }
+                    </div>
+                  `
+                ).join("")
+                :
+                `
+                  <div class="empty">
+                    فعالیتی برای این روز
+                    ثبت نشده.
+                  </div>
+                `
+              }
+            </div>
+          </details>
+        `;
+      }).join("");
+  } catch (error) {
+    console.error(
+      "WORKER ACTIVITIES ERROR:",
+      error
+    );
+    box.innerHTML = `
+      <div
+        class="
+          notice
+          error-box
+        "
+      >
+        ❌ خطا در دریافت فعالیت‌ها
+        <br><br>
+        <small>
+          ${esc(
+            error?.message ||
+            String(error)
+          )}
+        </small>
+      </div>
+    `;
+  }
+}
+/* =====================================================
+   INVENTORY
+===================================================== */
+
+async function loadInventory() {
+  const box = document.getElementById("inventoryList");
+  if (!box) {
+    console.error("inventoryList پیدا نشد");
+    return;
+  }
+  box.innerHTML = `
+    <div class="empty">
+      ⏳ در حال دریافت موجودی انبار...
+    </div>
+  `;
+  try {
+    if (!sb) {
+      throw new Error("اتصال به Supabase برقرار نیست.");
+    }
+    const { data: inventoryData, error: inventoryError } =
+      await sb
+        .from("inventory_items")
+        .select(`
+          id,
+          project_id,
+          item_name,
+          unit,
+          current_quantity,
+          created_at,
+          updated_at
+        `)
+        .order("item_name", {
+          ascending: true
+        });
+    if (inventoryError) {
+      throw inventoryError;
+    }
+    const NON_INVENTORY_WORDS = [
+      "کرایه",
+      "حمل",
+      "باربری",
+      "بارگیری",
+      "تخلیه",
+      "ناهار",
+      "غذا",
+      "صبحانه",
+      "شام",
+      "پذیرایی",
+      "تعمیر",
+      "سرویس",
+      "خدمات",
+      "دستمزد",
+      "اجرت",
+      "هزینه"
+    ];
+    function isRealInventoryItem(item) {
+      const name =
+        String(
+          item?.item_name || ""
+        ).trim().toLowerCase();
+      if (!name) {
+        return false;
+      }
+      return !NON_INVENTORY_WORDS.some(
+        word => name.includes(word)
+      );
+    }
+    const inventoryItems =
+      (inventoryData || []).filter(
+        isRealInventoryItem
+      );
+    const { data: projectsData, error: projectsError } =
+      await sb
+        .from("projects")
+        .select(`
+          id,
+          name
+        `)
+        .order("name", {
+          ascending: true
+        });
+    if (projectsError) {
+      throw projectsError;
+    }
+    const projectsById =
+      Object.fromEntries(
+        (projectsData || []).map(
+          project => [
+            project.id,
+            project.name
+          ]
+        )
+      );
+    const { data: movementsData, error: movementsError } =
+      await sb
+        .from("inventory_movements")
+        .select(`
+          id,
+          item_id,
+          movement_type,
+          quantity,
+          unit,
+          movement_date,
+          description,
+          created_at
+        `)
+        .order("movement_date", {
+          ascending: false
+        });
+    if (movementsError) {
+      throw movementsError;
+    }
+    const inventoryById =
+      Object.fromEntries(
+        inventoryItems.map(
+          item => [
+            item.id,
+            item
+          ]
+        )
+      );
+    const consumedByItem = {};
+    (movementsData || []).forEach(
+      movement => {
+        if (
+          movement.movement_type !== "out"
+        ) {
+          return;
+        }
+        const quantity =
+          Number(
+            movement.quantity || 0
+          );
+        consumedByItem[movement.item_id] =
+          (
+            consumedByItem[movement.item_id] || 0
+          ) + quantity;
+      }
+    );
+    const grouped = {};
+    (movementsData || [])
+      .filter(
+        movement =>
+          movement.movement_type === "in"
+      )
+      .forEach(
+        movement => {
+          const item =
+            inventoryById[
+              movement.item_id
+            ];
+          if (!item) {
+            return;
+          }
+          const projectName =
+            projectsById[
+              item.project_id
+            ] ||
+            "پروژه نامشخص";
+          if (!grouped[projectName]) {
+            grouped[projectName] = {};
+          }
+          const dateKey =
+            movement.movement_date
+              ? String(
+                  movement.movement_date
+                ).slice(0, 10)
+              : "بدون تاریخ";
+          if (!grouped[projectName][dateKey]) {
+            grouped[projectName][dateKey] = [];
+          }
+          grouped[projectName][dateKey].push({
+            item,
+            quantity:
+              Number(
+                movement.quantity || 0
+              ),
+            unit:
+              movement.unit ||
+              item.unit ||
+              "عدد",
+            description:
+              movement.description || ""
+          });
+        }
+      );
+    if (
+      Object.keys(grouped).length === 0
+    ) {
+      box.innerHTML = `
+        <div class="empty">
+          📦 هنوز ورود واقعی به انبار ثبت نشده.
+        </div>
+      `;
+      return;
+    }
+    function formatInventoryDate(dateString) {
+      if (!dateString) {
+        return "بدون تاریخ";
+      }
+      const date =
+        new Date(
+          `${dateString}T12:00:00`
+        );
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+        return esc(dateString);
+      }
+      return new Intl.DateTimeFormat(
+        "fa-IR-u-ca-persian",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }
+      ).format(date);
+    }
+    function getConsumptionText(item) {
+      const consumed =
+        Number(
+          consumedByItem[item.id] || 0
+        );
+      const current =
+        Number(
+          item.current_quantity || 0
+        );
+      if (consumed <= 0) {
+        return `
+          <div
+            class="muted"
+            style="
+              margin-top:6px;
+              font-size:12px;
+            "
+          >
+            (مصرف نشده)
+          </div>
+        `;
+      }
+      if (current <= 0) {
+        return `
+          <div
+            class="muted"
+            style="
+              margin-top:6px;
+              font-size:12px;
+            "
+          >
+            (کل موجودی مصرف شده)
+          </div>
+        `;
+      }
+      return `
+        <div
+          class="muted"
+          style="
+            margin-top:6px;
+            font-size:12px;
+          "
+        >
+          (
+          ${consumed.toLocaleString("fa-IR")}
+          ${esc(item.unit || "عدد")}
+          مصرف شده
+          )
+        </div>
+      `;
+    }
+    const projectEntries =
+      Object.entries(grouped)
+        .sort(
+          ([a], [b]) =>
+            a.localeCompare(
+              b,
+              "fa"
+            )
+        );
+    box.innerHTML =
+      projectEntries
+        .map(
+          ([projectName, dates]) => {
+            const dateEntries =
+              Object.entries(dates)
+                .sort(
+                  ([a], [b]) =>
+                    b.localeCompare(a)
+                );
+            return `
+              <details class="accounting-accordion">
+                <summary>
+                  <span>
+                    🏗️ ${esc(projectName)}
+                  </span>
+                  <span class="pill">
+                    ${dateEntries.length.toLocaleString("fa-IR")}
+                    روز
+                  </span>
+                </summary>
+                <div class="accordion-content">
+                  ${
+                    dateEntries
+                      .map(
+                        ([dateKey, movements]) => {
+                          return `
+                            <details
+                              class="accounting-accordion"
+                              style="
+                                margin:10px 0;
+                                border:1px solid var(--border-color);
+                              "
+                            >
+                              <summary>
+                                <span>
+                                  📅
+                                  ${formatInventoryDate(
+                                    dateKey
+                                  )}
+                                </span>
+                                <span class="pill">
+                                  ${movements.length.toLocaleString("fa-IR")}
+                                  قلم
+                                </span>
+                              </summary>
+                              <div class="accordion-content">
+                                ${
+                                  movements
+                                    .map(
+                                      movement => {
+                                        const quantity =
+                                          Number(
+                                            movement.quantity || 0
+                                          );
+                                        const quantityClass =
+                                          quantity > 0
+                                            ? "success"
+                                            : "danger";
+                                        return `
+                                          <div
+                                            style="
+                                              background:rgba(255,255,255,0.03);
+                                              border:1px solid var(--border-color);
+                                              border-radius:14px;
+                                              padding:16px;
+                                              margin-bottom:10px;
+                                            "
+                                          >
+                                            <div
+                                              style="
+                                                display:flex;
+                                                justify-content:space-between;
+                                                align-items:center;
+                                                gap:10px;
+                                              "
+                                            >
+                                              <strong>
+
+                                                📦
+                                                ${esc(
+                                                  movement.item.item_name
+                                                )}
+                                              </strong>
+                                              <strong
+                                                class="${quantityClass}"
+                                              >
+                                                +
+                                                ${quantity.toLocaleString("fa-IR")}
+                                                ${esc(
+                                                  movement.unit
+                                                )}
+                                              </strong>
+                                            </div>
+                                            <div
+                                              style="
+                                                margin-top:8px;
+                                                font-size:13px;
+                                              "
+                                            >
+                                              موجودی فعلی:
+                                              <strong>
+                                                ${Number(
+                                                  movement.item.current_quantity || 0
+                                                ).toLocaleString("fa-IR")}
+                                                ${esc(
+                                                  movement.item.unit || movement.unit
+                                                )}
+                                              </strong>
+                                            </div>
+                                            ${getConsumptionText(
+                                              movement.item
+                                            )}
+                                            ${
+                                              movement.description
+                                                ? `
+                                                  <div
+                                                    class="muted"
+                                                    style="margin-top:8px"
+                                                  >
+                                                    ${esc(
+                                                      movement.description
+                                                    )}
+                                                  </div>
+                                                `
+                                                : ""
+                                            }
+                                          </div>
+                                        `;
+                                      }
+                                    )
+                                    .join("")
+                                }
+                              </div>
+                            </details>
+                          `;
+                        }
+                      )
+                      .join("")
+                  }
+                </div>
+              </details>
+            `;
+          }
+        )
+        .join("");
+  }
+  catch (error) {
+    console.error(
+      "INVENTORY ERROR:",
+      error
+    );
+    box.innerHTML = `
+      <div class="notice error-box">
+        ❌ خطا در دریافت موجودی انبار
+        <br><br>
+        <small>
+          ${esc(
+            error?.message ||
+            String(error)
+          )}
+        </small>
+      </div>
+    `;
+  }
+}
+
+
+async function loadPersonalAccounts() {
+
+  const table =
+    document.getElementById("personalAccountsTable");
+
+  const summary =
+    document.getElementById("personalAccountsSummary");
+
+  if (!table) {
+    console.error(
+      "personalAccountsTable پیدا نشد"
+    );
+    return;
+  }
+
+  table.innerHTML = `
+    <tr>
+      <td colspan="6" style="text-align:center">
+        ⏳ در حال دریافت حساب‌های شخصی...
+      </td>
+    </tr>
+  `;
+
+  try {
+
+    const { data, error } = await sb
+      .from("personal_accounts")
+      .select("*")
+      .order("account_date", {
+        ascending: false
+      });
+
+    if (error) {
+      console.error(
+        "Supabase personal_accounts error:",
+        error
+      );
+
+      throw error;
+    }
+
+    console.log(
+      "Personal accounts:",
+      data
+    );
+
+    if (!data || data.length === 0) {
+
+      table.innerHTML = `
+        <tr>
+          <td
+            colspan="6"
+            style="text-align:center"
+          >
+            👤 هنوز حساب شخصی ثبت نشده.
+          </td>
+        </tr>
+      `;
+
+      if (summary) {
+        summary.innerHTML = "";
+      }
+
+      return;
+
+    }
+
+    let totalDebt = 0;
+    let totalCredit = 0;
+
+    const formatMoney = value => {
+
+      return (
+        Number(value || 0)
+          .toLocaleString("fa-IR")
+        + " ریال"
+      );
+
+    };
+
+    const formatDate = value => {
+
+      if (!value) {
+        return "-";
+      }
+
+      const date = new Date(value);
+
+      if (isNaN(date.getTime())) {
+        return String(value);
+      }
+
+      return date.toLocaleDateString(
+        "fa-IR"
+      );
+
+    };
+
+    data.forEach(item => {
+
+      const amount =
+        Number(item.amount_rial || 0);
+
+      const paid =
+        Number(item.paid_rial || 0);
+
+      const remaining =
+        Math.max(
+          amount - paid,
+          0
+        );
+
+      const type =
+        String(
+          item.account_type || ""
+        ).toLowerCase();
+
+      const isSalary =
+        type === "salary" ||
+        type.includes("salary") ||
+        type.includes("حقوق");
+
+      const isDebt =
+        type === "debt" ||
+        type.includes("debt") ||
+        type.includes("owe");
+
+      if (isSalary) {
+
+        return;
+
+      }
+
+      if (isDebt) {
+
+        totalDebt += remaining;
+
+      } else {
+
+        totalCredit += remaining;
+
+      }
+
+    });
+
+    if (summary) {
+
+      summary.innerHTML = `
+
+        <div class="card">
+
+          <div class="muted">
+            💸 مجموع بدهی من
+          </div>
+
+          <div
+            style="
+              font-size:20px;
+              font-weight:800;
+              margin-top:6px;
+            "
+          >
+            ${formatMoney(totalDebt)}
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="muted">
+            💰 مجموع طلب من
+          </div>
+
+          <div
+            style="
+              font-size:20px;
+              font-weight:800;
+              margin-top:6px;
+            "
+          >
+            ${formatMoney(totalCredit)}
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+    table.innerHTML = data.map(item => {
+
+      const amount =
+        Number(item.amount_rial || 0);
+
+      const paid =
+        Number(item.paid_rial || 0);
+
+      const remaining =
+        Math.max(
+          amount - paid,
+          0
+        );
+
+      const type =
+        String(
+          item.account_type || ""
+        ).toLowerCase();
+
+      const isSalary =
+        type === "salary" ||
+        type.includes("salary") ||
+        type.includes("حقوق");
+
+      const isDebt =
+        type === "debt" ||
+        type.includes("debt") ||
+        type.includes("owe");
+
+      const personName =
+        item.person_name ||
+        "بدون نام";
+
+      let accountLabel = "💰 طلبکارم";
+      let amountClass = "success";
+
+      if (isSalary) {
+
+        accountLabel = "💵 حقوق دریافتی";
+        amountClass = "success";
+
+      } else if (isDebt) {
+
+        accountLabel = "💸 بدهکارم";
+        amountClass = "danger";
+
+      }
+
+      return `
+
+        <tr>
+
+          <td>
+
+            <b>
+              👤 ${personName}
+            </b>
+
+          </td>
+
+          <td>
+
+            <span class="pill">
+
+              ${accountLabel}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            ${formatMoney(amount)}
+
+          </td>
+
+          <td>
+
+            ${formatMoney(paid)}
+
+          </td>
+
+          <td>
+
+            <b
+              class="${amountClass}"
+            >
+
+              ${formatMoney(remaining)}
+
+            </b>
+
+          </td>
+
+          <td>
+
+            ${formatDate(
+              item.account_date
+            )}
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+  } catch (error) {
+
+    console.error(
+      "PERSONAL ACCOUNTS ERROR:",
+      error
+    );
+
+    table.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          style="
+            text-align:center;
+            color:var(--accent-red);
+            padding:20px;
+          "
+        >
+
+          ❌ خطا در دریافت حساب‌های شخصی
+
+          <br><br>
+
+          <small>
+
+            ${
+              error?.message ||
+              String(error)
+            }
+
+          </small>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+}
+
+
+
+async function loadPersonalExpenses() {
+  const table =
+    document.getElementById("personalExpensesTable");
+  const summary =
+    document.getElementById("personalExpensesSummary");
+  if (!table) {
+    console.error("personalExpensesTable پیدا نشد");
+    return;
+  }
+  table.innerHTML = `
+    <tr>
+      <td colspan="5" style="text-align:center">
+        ⏳ در حال دریافت هزینه‌های شخصی...
+      </td>
+    </tr>
+  `;
+  try {
+    if (!sb) {
+      throw new Error("اتصال به Supabase برقرار نیست.");
+    }
+    const { data, error } = await sb
+      .from("personal_expenses")
+      .select(`
+        id,
+        item_name,
+        category,
+        amount_rial,
+        expense_date,
+        description,
+        created_at
+      `)
+      .order("expense_date", {
+        ascending: false
+      })
+      .order("created_at", {
+        ascending: false
+      });
+    if (error) {
+      throw error;
+    }
+    console.log("Personal expenses:", data);
+    if (!data || data.length === 0) {
+      table.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center">
+            🛍️ هنوز هزینه شخصی ثبت نشده.
+          </td>
+        </tr>
+      `;
+      if (summary) {
+        summary.innerHTML = "";
+      }
+      return;
+    }
+    const formatMoney = value => {
+      return (
+        Number(value || 0).toLocaleString("fa-IR")
+        + " ریال"
+      );
+    };
+    const formatDate = value => {
+      if (!value) {
+        return "-";
+      }
+      const date = new Date(value + "T00:00:00");
+      if (isNaN(date.getTime())) {
+        return String(value);
+      }
+      return date.toLocaleDateString("fa-IR");
+    };
+    const total = data.reduce(
+      (sum, item) =>
+        sum + Number(item.amount_rial || 0),
+      0
+    );
+    if (summary) {
+      summary.innerHTML = `
+        <div class="card">
+          <div class="muted">
+            💰 مجموع هزینه‌های شخصی
+          </div>
+          <div
+            style="
+              font-size:20px;
+              font-weight:800;
+              margin-top:6px;
+            "
+          >
+            ${formatMoney(total)}
+          </div>
+        </div>
+        <div class="card">
+          <div class="muted">
+            🧾 تعداد هزینه‌ها
+          </div>
+          <div
+            style="
+              font-size:20px;
+              font-weight:800;
+              margin-top:6px;
+            "
+          >
+            ${data.length.toLocaleString("fa-IR")}
+          </div>
+        </div>
+      `;
+    }
+    table.innerHTML = data.map(item => {
+      return `
+        <tr>
+          <td>
+            <b>
+              🛍️ ${esc(item.item_name || "بدون عنوان")}
+            </b>
+          </td>
+          <td>
+            ${
+              item.category
+                ? `
+                  <span class="pill">
+                    ${esc(item.category)}
+                  </span>
+                `
+                : "-"
+            }
+          </td>
+          <td>
+            <b>
+              ${formatMoney(item.amount_rial)}
+            </b>
+          </td>
+          <td>
+            ${formatDate(item.expense_date)}
+          </td>
+          <td>
+            ${
+              item.description
+                ? esc(item.description)
+                : "-"
+            }
+          </td>
+        </tr>
+      `;
+    }).join("");
+  } catch (error) {
+    console.error(
+      "PERSONAL EXPENSES ERROR:",
+      error
+    );
+    table.innerHTML = `
+      <tr>
+        <td
+          colspan="5"
+          style="
+            text-align:center;
+            color:var(--accent-red);
+            padding:20px;
+          "
+        >
+          ❌ خطا در دریافت هزینه‌های شخصی
+          <br><br>
+          <small>
+            ${esc(
+              error?.message ||
+              String(error)
+            )}
+          </small>
+        </td>
+      </tr>
+    `;
+  }
+}
+
+async function loadDailyReports() {
+
+    const box = document.getElementById("dailyReportsList");
+
+    if (!box) {
+        console.error("dailyReportsList پیدا نشد");
+        return;
+    }
+
+    box.innerHTML = `
+        <div class="empty">
+            ⏳ در حال دریافت گزارش‌ها...
+        </div>
+    `;
+
+    try {
+
+        if (!sb) {
+            throw new Error("اتصال به Supabase برقرار نیست.");
+        }
+
+        const { data, error } = await sb
+            .from("daily_reports")
+            .select(`
+                id,
+                project_id,
+                report_date,
+                report_text,
+                created_at
+            `)
+            .order("report_date", {
+                ascending: false
+            })
+            .order("created_at", {
+                ascending: false
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        const projects = {};
+
+        Object.entries(db.projects || {})
+            .forEach(([name, project]) => {
+
+                if (project && project.id) {
+                    projects[String(project.id)] = name;
+                }
+
+            });
+
+        if (!data || data.length === 0) {
+
+            box.innerHTML = `
+                <div class="empty">
+                    📭 هنوز گزارشی ثبت نشده است.
+                </div>
+            `;
+
+            return;
+
+        }
+
+        function formatDailyReportDate(dateString) {
+
+            if (!dateString) {
+                return "-";
+            }
+
+            const value =
+                String(dateString).slice(0, 10);
+
+            const parts =
+                value.split("-");
+
+            if (parts.length !== 3) {
+                return value;
+            }
+
+            const year = Number(parts[0]);
+            const month = Number(parts[1]);
+            const day = Number(parts[2]);
+
+            if (
+                !Number.isInteger(year) ||
+                !Number.isInteger(month) ||
+                !Number.isInteger(day)
+            ) {
+                return value;
+            }
+
+            return new Intl.DateTimeFormat(
+                "fa-IR-u-ca-persian",
+                {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
+                }
+            ).format(
+                new Date(
+                    Date.UTC(
+                        year,
+                        month - 1,
+                        day,
+                        12,
+                        0,
+                        0
+                    )
+                )
+            );
+        }
+
+        const grouped = {};
+
+        data.forEach(report => {
+
+            const projectName =
+                projects[String(report.project_id)] ||
+                "پروژه نامشخص";
+
+            const reportDate =
+                String(report.report_date || "")
+                    .slice(0, 10);
+
+            if (!grouped[projectName]) {
+                grouped[projectName] = {};
+            }
+
+            if (!grouped[projectName][reportDate]) {
+                grouped[projectName][reportDate] = [];
+            }
+
+            grouped[projectName][reportDate].push(report);
+
+        });
+
+        box.innerHTML =
+            Object.entries(grouped)
+                .map(([projectName, dates]) => {
+
+                    const totalReports =
+                        Object.values(dates)
+                            .reduce(
+                                (sum, reports) =>
+                                    sum + reports.length,
+                                0
+                            );
+
+                    return `
+
+                        <details class="accounting-accordion">
+
+                            <summary>
+
+                                <span>
+                                    🏗️
+                                    ${esc(projectName)}
+                                </span>
+
+                                <span class="pill">
+                                    ${totalReports.toLocaleString("fa-IR")}
+                                    گزارش
+                                </span>
+
+                            </summary>
+
+                            <div class="accordion-content">
+
+                                ${
+                                    Object.entries(dates)
+                                        .map(
+                                            ([date, reports]) => {
+
+                                                return `
+
+                                                    <details
+                                                        class="accounting-accordion"
+                                                        style="margin-bottom:10px;"
+                                                    >
+
+                                                        <summary>
+
+                                                            <span>
+                                                                📅
+                                                                ${esc(
+                                                                    formatDailyReportDate(
+                                                                        date
+                                                                    )
+                                                                )}
+                                                            </span>
+
+                                                            <span class="pill">
+                                                                ${reports.length.toLocaleString("fa-IR")}
+                                                                گزارش
+                                                            </span>
+
+                                                        </summary>
+
+                                                        <div class="accordion-content">
+
+                                                            ${
+                                                                reports
+                                                                    .map(report => {
+
+                                                                        return `
+
+                                                                            <div
+                                                                                style="
+                                                                                    background:rgba(255,255,255,0.03);
+                                                                                    border:1px solid var(--border-color);
+                                                                                    border-radius:14px;
+                                                                                    padding:16px;
+                                                                                    margin-bottom:10px;
+                                                                                "
+                                                                            >
+
+                                                                                <div
+                                                                                    style="
+                                                                                        white-space:pre-wrap;
+                                                                                        line-height:1.9;
+                                                                                    "
+                                                                                >
+                                                                                    ${esc(
+                                                                                        report.report_text
+                                                                                    )}
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        `;
+
+                                                                    })
+                                                                    .join("")
+                                                            }
+
+                                                        </div>
+
+                                                    </details>
+
+                                                `;
+
+                                            }
+                                        )
+                                        .join("")
+                                }
+
+                            </div>
+
+                        </details>
+
+                    `;
+
+                })
+                .join("");
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "DAILY REPORTS ERROR:",
+            error
+        );
+
+        box.innerHTML = `
+
+            <div class="notice error-box">
+
+                ❌ خطا در دریافت گزارش‌های روزانه
+
+                <br><br>
+
+                <small>
+                    ${esc(
+                        error?.message ||
+                        String(error)
+                    )}
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+async function loadLatestRecords() {
+
+    const box =
+        document.getElementById("latestRecords");
+
+    if (!box) return;
+
+    box.innerHTML = `
+        <div class="empty">
+            ⏳ در حال دریافت آخرین ثبت‌ها...
+        </div>
+    `;
+
+    try {
+
+        if (!sb) {
+            throw new Error(
+                "اتصال به Supabase برقرار نیست."
+            );
+        }
+
+        const [
+            transactionsRes,
+            purchasesRes,
+            workerRes,
+            personalAccountsRes,
+            personalExpensesRes,
+            dailyReportsRes
+        ] = await Promise.all([
+
+            sb
+                .from("transactions")
+                .select(`
+                    id,
+                    contractor_id,
+                    project_id,
+                    type,
+                    description,
+                    amount_rial,
+                    transaction_date,
+                    status,
+                    created_at
+                `)
+                .order("created_at", {
+                    ascending: false
+                })
+                .limit(20),
+
+            sb
+                .from("purchases")
+                .select(`
+                    id,
+                    item_name,
+                    quantity,
+                    unit,
+                    amount_rial,
+                    purchase_date,
+                    project_id,
+                    description,
+                    created_at
+                `)
+                .order("created_at", {
+                    ascending: false
+                })
+                .limit(20),
+
+            sb
+                .from("worker_activities")
+                .select(`
+                    id,
+                    person_name,
+                    activity_date,
+                    hours,
+                    description,
+                    project_id,
+                    created_at
+                `)
+                .order("created_at", {
+                    ascending: false
+                })
+                .limit(20),
+
+            sb
+                .from("personal_accounts")
+                .select("*")
+                .order("created_at", {
+                    ascending: false
+                })
+                .limit(20),
+
+
+            sb
+                .from("personal_expenses")
+                .select(`
+                    id,
+                    item_name,
+                    category,
+                    amount_rial,
+                    expense_date,
+                    description,
+                    created_at
+                `)
+                .order("created_at", {
+                    ascending: false
+                })
+                .limit(20),
+
+            sb
+                .from("daily_reports")
+                .select(`
+                    id,
+                    project_id,
+                    report_date,
+                    report_text,
+                    created_at
+                `)
+                .order("created_at", {
+                    ascending: false
+                })
+                .limit(20)
+
+        ]);
+
+
+        if (transactionsRes.error)
+            throw transactionsRes.error;
+
+        if (purchasesRes.error)
+            throw purchasesRes.error;
+
+        if (workerRes.error)
+            throw workerRes.error;
+
+        if (personalAccountsRes.error)
+            throw personalAccountsRes.error;
+
+        if (personalExpensesRes.error)
+            throw personalExpensesRes.error;
+
+        if (dailyReportsRes.error)
+            throw dailyReportsRes.error;
+
+
+        const projects = {};
+
+        Object.entries(db.projects || {})
+            .forEach(([name, project]) => {
+
+                if (
+                    project &&
+                    project.id
+                ) {
+
+                    projects[
+                        String(project.id)
+                    ] = name;
+
+                }
+
+            });
+
+
+        const contractors = {};
+
+        Object.entries(db.contractors || {})
+            .forEach(([name, contractor]) => {
+
+                if (
+                    contractor &&
+                    contractor.id
+                ) {
+
+                    contractors[
+                        String(contractor.id)
+                    ] = name;
+
+                }
+
+            });
+
+
+        function formatLatestDate(dateString) {
+
+            if (!dateString) {
+                return "-";
+            }
+
+            const value =
+                String(dateString)
+                    .slice(0, 10);
+
+            const parts =
+                value.split("-");
+
+            if (parts.length !== 3
+            ) {
+                return value;
+            }
+
+            const year =
+                Number(parts[0]);
+
+            const month =
+                Number(parts[1]);
+
+            const day =
+                Number(parts[2]);
+
+            if (
+                !Number.isInteger(year) ||
+                !Number.isInteger(month) ||
+                !Number.isInteger(day)
+            ) {
+                return value;
+            }
+
+            return new Intl.DateTimeFormat(
+                "fa-IR-u-ca-persian",
+                {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
+                }
+            ).format(
+                new Date(
+                    Date.UTC(
+                        year,
+                        month - 1,
+                        day,
+                        12,
+                        0,
+                        0
+                    )
+                )
+            );
+
+        }
+
+
+        const records = [];
+
+
+        (transactionsRes.data || [])
+            .forEach(item => {
+
+                if (
+                    item.status === "replaced"
+                ) {
+                    return;
+                }
+
+                const isPayment =
+                    item.type === "payment";
+
+                records.push({
+
+                    date:
+                        item.transaction_date ||
+                        item.created_at,
+
+                    createdAt:
+                        item.created_at,
+
+                    type:
+                        isPayment
+                            ? "payment"
+                            : "work",
+
+                    icon:
+                        isPayment
+                            ? "💰"
+                            : "🟢",
+
+                    title:
+                        isPayment
+                            ? "پرداخت"
+                            : "کار انجام‌شده",
+
+                    person:
+                        contractors[
+                            String(
+                                item.contractor_id
+                            )
+                        ] ||
+                        "نامشخص",
+
+                    project:
+                        projects[
+                            String(
+                                item.project_id
+                            )
+                        ] ||
+                        "نامشخص",
+
+                    description:
+                        item.description || "",
+
+                    amount:
+                        Number(
+                            item.amount_rial || 0
+                        )
+
+                });
+
+            });
+
+
+        (purchasesRes.data || [])
+            .forEach(item => {
+
+                records.push({
+
+                    date:
+                        item.purchase_date ||
+                        item.created_at,
+
+                    createdAt:
+                        item.created_at,
+
+                    type:
+                        "purchase",
+
+                    icon:
+                        "🛒",
+
+                    title:
+                        "خرید",
+
+                    person:
+                        "",
+
+                    project:
+                        projects[
+                            String(
+                                item.project_id
+                            )
+                        ] ||
+                        "نامشخص",
+
+                    description:
+                        item.item_name || "",
+
+                    amount:
+                        Number(
+                            item.amount_rial || 0
+                        )
+
+                });
+
+            });
+
+
+        (workerRes.data || [])
+            .forEach(item => {
+
+                records.push({
+
+                    date:
+                        item.activity_date,
+
+                    createdAt:
+                        item.created_at,
+
+                    type:
+                        "worker",
+
+                    icon:
+                        "👷",
+
+                    title:
+                        "فعالیت نیرو",
+
+                    person:
+                        item.person_name ||
+                        "نامشخص",
+
+                    project:
+                        projects[
+                            String(
+                                item.project_id
+                            )
+                        ] ||
+                        "نامشخص",
+
+                    description:
+                        item.description ||
+                        `${item.hours || 0} ساعت`,
+
+                    amount:
+                        null
+
+                });
+
+            });
+
+
+        (personalAccountsRes.data || [])
+            .forEach(item => {
+
+                records.push({
+
+                    date:
+                        item.account_date ||
+                        item.created_at,
+
+                    createdAt:
+                        item.created_at,
+
+                    type:
+                        "personal",
+
+                    icon:
+                        "👤",
+
+                    title:
+                        "حساب شخصی",
+
+                    person:
+                        item.person_name ||
+                        "نامشخص",
+
+                    project:
+                        "",
+
+                    description:
+                        item.account_type ||
+                        "",
+
+                    amount:
+                        Number(
+                            item.amount_rial || 0
+                        )
+
+                });
+
+            });
+
+
+        (personalExpensesRes.data || [])
+            .forEach(item => {
+
+                records.push({
+
+                    date:
+                        item.expense_date ||
+                        item.created_at,
+
+                    createdAt:
+                        item.created_at,
+
+                    type:
+                        "expense",
+
+                    icon:
+                        "🛍️",
+
+                    title:
+                        "هزینه شخصی",
+
+                    person:
+                        "",
+
+                    project:
+                        "",
+
+                    description:
+                        item.item_name || "",
+
+                    amount:
+                        Number(
+                            item.amount_rial || 0
+                        )
+
+                });
+
+            });
+
+
+        (dailyReportsRes.data || [])
+            .forEach(item => {
+
+                records.push({
+
+                    date:
+                        item.report_date ||
+                        item.created_at,
+
+                    createdAt:
+                        item.created_at,
+
+                    type:
+                        "daily-report",
+
+                    icon:
+                        "📋",
+
+                    title:
+                        "گزارش روزانه",
+
+                    person:
+                        "",
+
+                    project:
+                        projects[
+                            String(
+                                item.project_id
+                            )
+                        ] ||
+                        "نامشخص",
+
+                    description:
+                        item.report_text ||
+                        "",
+
+                    amount:
+                        null
+
+                });
+
+            });
+
+
+        records.sort((a, b) => {
+
+            const timeA =
+                new Date(
+                    a.createdAt || 0
+                ).getTime();
+
+            const timeB =
+                new Date(
+                    b.createdAt || 0
+                ).getTime();
+
+            return timeB - timeA;
+
+        });
+
+
+        const latest =
+            records.slice(0, 10);
+
+
+        if (!latest.length) {
+
+            box.innerHTML = `
+                <div class="empty">
+                    📭 هنوز ثبتی وجود ندارد.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        box.innerHTML =
+
+            latest
+                .map(item => {
+
+                    const date =
+                        formatLatestDate(
+                            item.date
+                        );
+
+                    return `
+
+                        <details
+                            class="
+                                latest-record
+                                latest-${item.type}
+                            "
+                        >
+
+                            <summary>
+
+                                <div
+                                    class="
+                                        latest-record-main
+                                    "
+                                >
+
+                                    <span
+                                        class="
+                                            latest-record-title
+                                        "
+                                    >
+
+                                        ${item.icon}
+
+                                        ${esc(
+                                            item.title
+                                        )}
+
+                                    </span>
+
+
+                                    ${
+                                        item.amount !== null
+                                        ?
+                                        `
+
+                                        <span
+                                            class="
+                                                latest-record-amount
+                                            "
+                                        >
+
+                                            ${Number(
+                                                item.amount || 0
+                                            ).toLocaleString(
+                                                "fa-IR"
+                                            )}
+
+                                            ریال
+
+                                        </span>
+
+                                        `
+                                        :
+                                        ""
+                                    }
+
+                                </div>
+
+                            </summary>
+
+
+                            <div
+                                class="
+                                    latest-record-meta
+                                "
+                            >
+
+                                ${
+                                    item.person
+                                    ?
+                                    `
+
+                                    👤
+                                    ${esc(
+                                        item.person
+                                    )}
+
+                                    <br>
+
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                ${
+                                    item.project
+                                    ?
+                                    `
+
+                                    🏗️ پروژه:
+                                    ${esc(
+                                        item.project
+                                    )}
+
+                                    <br>
+
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                ${
+                                    item.description
+                                    ?
+                                    `
+
+                                    📝
+                                    ${esc(
+                                        item.description
+                                    )}
+
+                                    <br>
+
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                📅 ${date}
+
+                            </div>
+
+                        </details>
+
+                    `;
+
+                })
+                .join("");
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LATEST RECORDS ERROR:",
+            error
+        );
+
+        box.innerHTML = `
+
+            <div
+                class="
+                    notice
+                    error-box
+                "
+            >
+
+                ❌ خطا در دریافت آخرین ثبت‌ها
+
+                <br><br>
+
+                <small>
+
+                    ${esc(
+                        error?.message ||
+                        String(error)
+                    )}
+
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   PURCHASES
+===================================================== */
+
+async function loadPurchases(){
+
+    const box = document.getElementById("purchasesList");
+
+    if(!box) return;
+
+    box.innerHTML = `
+        <div class="empty">
+            ⏳ در حال دریافت خریدهای پروژه‌ای...
+        </div>
+    `;
+
+    try{
+
+        const { data, error } = await sb
+            .from("purchases")
+            .select(`
+                id,
+                project_id,
+                item_name,
+                quantity,
+                unit,
+                purchase_date,
+                amount_rial,
+                description,
+                created_at,
+                projects (
+                    id,
+                    name
+                )
+            `)
+            .order("purchase_date", { ascending:false })
+            .order("created_at", { ascending:false });
+
+        if(error) throw error;
+
+        if(!data || data.length === 0){
+
+            box.innerHTML = `
+                <div class="empty">
+                    📭 هنوز خریدی ثبت نشده است.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        const projects = {};
+
+        data.forEach(item => {
+
+            const projectName =
+                item.projects?.name ||
+                "بدون پروژه";
+
+            const date =
+                item.purchase_date ||
+                item.created_at?.slice(0,10) ||
+                "";
+
+            if(!projects[projectName]){
+                projects[projectName] = {};
+            }
+
+            if(!projects[projectName][date]){
+                projects[projectName][date] = [];
+            }
+
+            projects[projectName][date].push(item);
+
+        });
+
+
+        let html = "";
+
+
+        Object.keys(projects).forEach(projectName => {
+
+            html += `
+                <details class="accounting-accordion">
+
+                    <summary>
+                        🏗️ ${escapeHtml(projectName)}
+                    </summary>
+
+                    <div class="accordion-content">
+            `;
+
+
+            const dates =
+                Object.keys(projects[projectName])
+                    .sort()
+                    .reverse();
+
+            dates.forEach(date => {
+
+                html += `
+                    <details>
+
+                        <summary>
+                            📅 ${formatPurchaseDate(date)}
+                        </summary>
+
+                        <div style="margin-top:10px">
+                `;
+
+
+                let dayTotal = 0;
+
+                projects[projectName][date]
+                    .forEach(item => {
+
+                        const amount =
+                            Number(item.amount_rial || 0);
+
+                        dayTotal += amount;
+
+                        const quantity =
+                            item.quantity ??
+                            1;
+
+                        const unit =
+                            item.unit ||
+                            "عدد";
+
+                        html += `
+                            <div class="latest-record latest-purchase">
+
+                                <div class="latest-record-main">
+
+                                    <div>
+                                        <div class="latest-record-title">
+                                            🛒 ${escapeHtml(
+                                                item.item_name ||
+                                                "کالای بدون نام"
+                                            )}
+                                        </div>
+
+                                        <div class="latest-record-meta">
+
+                                            مقدار:
+                                            ${escapeHtml(String(quantity))}
+                                            ${escapeHtml(unit)}
+
+                                            ${
+                                                item.description
+                                                ? `<br>${escapeHtml(item.description)}`
+                                                :
+                                                ""
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="latest-record-amount">
+
+                                        ${formatRial(amount)}
+
+                                        ریال
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        `;
+
+                    });
+
+
+                html += `
+
+                        <div
+                            style="
+                                margin-top:10px;
+                                padding:12px;
+                                border-radius:12px;
+                                background:rgba(255,255,255,0.04);
+                                font-weight:800;
+                                border:1px solid var(--border-color);
+                            "
+                        >
+
+                            جمع خرید روز:
+                            ${formatRial(dayTotal)}
+                            ریال
+
+                        </div>
+
+                    </div>
+
+                    </details>
+                `;
+
+            });
+
+
+            html += `
+                    </div>
+
+                </details>
+            `;
+
+        });
+
+
+        box.innerHTML = html;
+
+
+    }
+    catch(error){
+
+        console.error(
+            "LOAD PURCHASES ERROR:",
+            error
+        );
+
+        box.innerHTML = `
+            <div class="notice error-box">
+
+                ❌ خطا در دریافت خریدها
+
+                <br>
+
+                ${escapeHtml(
+                    error.message ||
+                    String(error)
+                )}
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   PURCHASE TOOLS
+===================================================== */
+
+function formatRial(value){
+
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "fa-IR"
+    );
+
+}
+
+
+function formatPurchaseDate(date){
+
+    if(!date) return "بدون تاریخ";
+
+    try{
+
+        return new Date(
+            date + "T00:00:00"
+        ).toLocaleDateString(
+            "fa-IR"
+        );
+
+    }
+    catch{
+
+        return date;
+
+    }
+
+}
+
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function toggleTheme(){
+    document.documentElement.classList.toggle('light');
+    localStorage.setItem('yashar-theme', document.documentElement.classList.contains('light') ? 'light' : 'dark');
+}
+(function(){
+    if(localStorage.getItem('yashar-theme') === 'light'){
+        document.documentElement.classList.add('light');
+    }
+})();
+
+/* =====================================================
+
+/* =====================================================
+   SIMPLE CACHE - کش ساده برای سرعت بیشتر
+===================================================== */
+const CACHE_TTL = 30000; /* 30 ثانیه */
+
+function getCached(key) {
+    try {
+        const raw = localStorage.getItem('cache_' + key);
+        if (!raw) return null;
+        const item = JSON.parse(raw);
+        if (Date.now() - item.ts > CACHE_TTL) {
+            localStorage.removeItem('cache_' + key);
+            return null;
+        }
+        return item.data;
+    } catch { return null; }
+}
+
+function setCache(key, data) {
+    try {
+        localStorage.setItem('cache_' + key, JSON.stringify({ ts: Date.now(), data }));
+    } catch {}
+}
+   START
+===================================================== */
+
+buildNavigation();
+
+/* =====================================================
+   PARALLEL LOADING - همه چیز همزمان لود میشه
+===================================================== */
+async function loadAllData() {
+    try {
+        await loadData();
+    } catch(e) {
+        console.error('loadData error:', e);
+    }
+    
+    /* همه بخش‌ها همزمان لود میشن */
+    await Promise.allSettled([
+        loadWorkerActivities(),
+        loadPurchases(),
+        loadPersonalAccounts(),
+        loadPersonalExpenses(),
+        loadInventory(),
+        loadLatestRecords()
+    ]);
+}
+
+loadAllData();
+</script>
+
+</body>
+</html>
