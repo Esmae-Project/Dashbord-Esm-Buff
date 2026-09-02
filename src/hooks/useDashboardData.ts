@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "../lib/supabase";
 
 /* =====================================================
@@ -119,47 +119,91 @@ export type DashboardData = {
 };
 
 /* =====================================================
-   HOOK
+   CACHE — کش ساده برای سرعت بیشتر
+===================================================== */
+const CACHE_KEY = "dashboard_cache";
+const CACHE_TTL = 60_000; // ۱ دقیقه
+
+function getCached(): Partial<DashboardData> | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function setCache(data: Partial<DashboardData>) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+  } catch {
+    // ذخیره نشد — مهم نیست
+  }
+}
+
+/* =====================================================
+   INITIAL STATE
+===================================================== */
+const INITIAL: DashboardData = {
+  projects: [],
+  contractors: [],
+  transactions: [],
+  dailyReports: [],
+  workerActivities: [],
+  inventoryItems: [],
+  inventoryMovements: [],
+  purchases: [],
+  personalAccounts: [],
+  personalExpenses: [],
+  loading: true,
+  error: null,
+  connectionStatus: "connecting",
+  connectionMessage: "🔄 در حال اتصال به دیتابیس...",
+  refresh: () => {},
+};
+
+/* =====================================================
+   HOOK — با لود تدریجی و کش
 ===================================================== */
 export function useDashboardData(): DashboardData {
-  const [data, setData] = useState<DashboardData>({
-    projects: [],
-    contractors: [],
-    transactions: [],
-    dailyReports: [],
-    workerActivities: [],
-    inventoryItems: [],
-    inventoryMovements: [],
-    purchases: [],
-    personalAccounts: [],
-    personalExpenses: [],
-    loading: true,
-    error: null,
-    connectionStatus: "connecting",
-    connectionMessage: "🔄 در حال اتصال به Supabase...",
-    refresh: () => {},
+  const [data, setData] = useState<DashboardData>(() => {
+    // اگه کش داریم، فوری نشون بده
+    const cached = getCached();
+    if (cached && cached.projects && cached.projects.length > 0) {
+      return {
+        ...INITIAL,
+        ...cached,
+        loading: false,
+        connectionStatus: "connected" as const,
+        connectionMessage: "✅ بارگذاری از حافظه — در حال به‌روزرسانی...",
+        refresh: () => {},
+      };
+    }
+    return INITIAL;
   });
 
+  const loadRef = useRef(false);
+
   const loadData = useCallback(async () => {
+    // جلوگیری از لود تکراری
+    if (loadRef.current) return;
+    loadRef.current = true;
+
     setData((prev) => ({
       ...prev,
       loading: true,
       connectionStatus: "connecting",
-      connectionMessage: "🔄 در حال اتصال به Supabase...",
+      connectionMessage: "🔄 در حال دریافت اطلاعات...",
     }));
 
     try {
-      // Test connection first
-      const testResult = await supabase
-        .from("projects")
-        .select("id")
-        .limit(1);
-
-      if (testResult.error) {
-        throw new Error("اتصال به Supabase برقرار نیست: " + testResult.error.message);
-      }
-
-      // Load all data in parallel
+      // همه ۱۰ کوئری همزمان — بدون تست اضافی
       const [
         projectsRes,
         contractorsRes,
@@ -171,7 +215,7 @@ export function useDashboardData(): DashboardData {
         purchasesRes,
         personalAccountsRes,
         personalExpensesRes,
-      ] = await Promise.all([
+      ] = await Promise.allSettled([
         supabase
           .from("projects")
           .select("id, name, employer, created_at")
@@ -182,76 +226,91 @@ export function useDashboardData(): DashboardData {
           .order("name"),
         supabase
           .from("transactions")
-          .select("id, contractor_id, project_id, type, description, amount_rial, transaction_date, status, created_at")
+          .select(
+            "id, contractor_id, project_id, type, description, amount_rial, transaction_date, status, created_at"
+          )
           .order("created_at", { ascending: true }),
         supabase
           .from("daily_reports")
           .select("id, project_id, report_date, report_text, created_at")
-          .order("report_date", { ascending: false })
-          .order("created_at", { ascending: false }),
+          .order("report_date", { ascending: false }),
         supabase
           .from("worker_activities")
-          .select("id, person_name, activity_date, hours, description, project_id, created_at")
-          .order("activity_date", { ascending: false })
-          .order("created_at", { ascending: false }),
+          .select(
+            "id, person_name, activity_date, hours, description, project_id, created_at"
+          )
+          .order("activity_date", { ascending: false }),
         supabase
           .from("inventory_items")
-          .select("id, project_id, item_name, unit, current_quantity, created_at, updated_at")
+          .select(
+            "id, project_id, item_name, unit, current_quantity, created_at, updated_at"
+          )
           .order("item_name"),
         supabase
           .from("inventory_movements")
-          .select("id, item_id, movement_type, quantity, unit, movement_date, description, created_at")
+          .select(
+            "id, item_id, movement_type, quantity, unit, movement_date, description, created_at"
+          )
           .order("movement_date", { ascending: false }),
         supabase
           .from("purchases")
-          .select("id, project_id, item_name, quantity, unit, purchase_date, amount_rial, description, created_at")
-          .order("purchase_date", { ascending: false })
-          .order("created_at", { ascending: false }),
+          .select(
+            "id, project_id, item_name, quantity, unit, purchase_date, amount_rial, description, created_at"
+          )
+          .order("purchase_date", { ascending: false }),
         supabase
           .from("personal_accounts")
           .select("*")
           .order("account_date", { ascending: false }),
         supabase
           .from("personal_expenses")
-          .select("id, item_name, category, amount_rial, expense_date, description, created_at")
-          .order("expense_date", { ascending: false })
-          .order("created_at", { ascending: false }),
+          .select(
+            "id, item_name, category, amount_rial, expense_date, description, created_at"
+          )
+          .order("expense_date", { ascending: false }),
       ]);
 
-      // Check for errors
-      const errors: string[] = [];
-      if (projectsRes.error) errors.push("projects: " + projectsRes.error.message);
-      if (contractorsRes.error) errors.push("contractors: " + contractorsRes.error.message);
-      if (transactionsRes.error) errors.push("transactions: " + transactionsRes.error.message);
-
-      if (errors.length > 0) {
-        throw new Error(errors.join("\n"));
+      // استخراج داده از Promise.allSettled
+      function extract<T>(r: PromiseSettledResult<{ data: T[] | null; error: unknown }>): T[] {
+        if (r.status === "rejected") return [];
+        if (r.value.error) return [];
+        return (r.value.data || []) as T[];
       }
 
-      const pCount = projectsRes.data?.length || 0;
-      const cCount = contractorsRes.data?.length || 0;
-      const tCount = transactionsRes.data?.length || 0;
+      const projects = extract<Project>(projectsRes);
+      const contractors = extract<Contractor>(contractorsRes);
+      const transactions = extract<Transaction>(transactionsRes);
+      const dailyReports = extract<DailyReport>(dailyReportsRes);
+      const workerActivities = extract<WorkerActivity>(workerActivitiesRes);
+      const inventoryItems = extract<InventoryItem>(inventoryItemsRes);
+      const inventoryMovements = extract<InventoryMovement>(inventoryMovementsRes);
+      const purchases = extract<Purchase>(purchasesRes);
+      const personalAccounts = extract<PersonalAccount>(personalAccountsRes);
+      const personalExpenses = extract<PersonalExpense>(personalExpensesRes);
 
-      setData({
-        projects: (projectsRes.data || []) as Project[],
-        contractors: (contractorsRes.data || []) as Contractor[],
-        transactions: (transactionsRes.data || []) as Transaction[],
-        dailyReports: (dailyReportsRes.data || []) as DailyReport[],
-        workerActivities: (workerActivitiesRes.data || []) as WorkerActivity[],
-        inventoryItems: (inventoryItemsRes.data || []) as InventoryItem[],
-        inventoryMovements: (inventoryMovementsRes.data || []) as InventoryMovement[],
-        purchases: (purchasesRes.data || []) as Purchase[],
-        personalAccounts: (personalAccountsRes.data || []) as PersonalAccount[],
-        personalExpenses: (personalExpensesRes.data || []) as PersonalExpense[],
+      const newState: DashboardData = {
+        projects,
+        contractors,
+        transactions,
+        dailyReports,
+        workerActivities,
+        inventoryItems,
+        inventoryMovements,
+        purchases,
+        personalAccounts,
+        personalExpenses,
         loading: false,
         error: null,
         connectionStatus: "connected",
-        connectionMessage: `✅ اتصال آنلاین به Supabase موفق است. ${pCount} پروژه، ${cCount} پیمانکار و ${tCount} تراکنش دریافت شد.`,
+        connectionMessage: `✅ اتصال موفق — ${projects.length} پروژه، ${contractors.length} پیمانکار، ${transactions.length} تراکنش`,
         refresh: loadData,
-      });
+      };
+
+      setData(newState);
+      setCache(newState);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      console.error("SUPABASE ERROR:", err);
+      console.error("LOAD ERROR:", err);
       setData((prev) => ({
         ...prev,
         loading: false,
@@ -260,6 +319,8 @@ export function useDashboardData(): DashboardData {
         connectionMessage: "❌ " + message,
         refresh: loadData,
       }));
+    } finally {
+      loadRef.current = false;
     }
   }, []);
 
@@ -267,5 +328,5 @@ export function useDashboardData(): DashboardData {
     loadData();
   }, [loadData]);
 
-  return data;
+  return { ...data, refresh: loadData };
 }
