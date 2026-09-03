@@ -10,6 +10,7 @@ import WorkerActivitiesView from "./views/WorkerActivitiesView";
 import EmployersView from "./views/EmployersView";
 import InventoryView from "./views/InventoryView";
 import PurchasesView from "./views/PurchasesView";
+import PersianClock from "./components/PersianClock";
 
 const NAV_ITEMS = [
   { id: "dashboard", label: "🏠 داشبورد" },
@@ -93,6 +94,8 @@ export default function App() {
             </h1>
             <div className="subtitle">پروژه‌ها • پیمانکاران • حسابداری • کارفرماها</div>
           </div>
+
+          <PersianClock />
 
           <div className="theme-toggle">
             <span className="theme-toggle-label">☀️</span>

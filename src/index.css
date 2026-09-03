@@ -1084,6 +1084,87 @@ footer {
 }
 
 /* =====================================================
+   PERSIAN CLOCK
+===================================================== */
+.persian-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  min-width: 180px;
+  transition: var(--transition);
+}
+
+.persian-clock:hover {
+  border-color: var(--border-hover);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html.light .persian-clock {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+html.light .persian-clock:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.clock-time {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+}
+
+.clock-hour,
+.clock-minute {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.clock-sep {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  transition: opacity 0.3s ease;
+  margin: 0 1px;
+}
+
+.clock-second {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 22px;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.clock-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.clock-weekday {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.clock-dot {
+  color: var(--text-muted);
+  font-size: 8px;
+}
+
+/* =====================================================
    RESPONSIVE
 ===================================================== */
 @media (max-width: 700px) {
@@ -1115,5 +1196,17 @@ footer {
   }
   .modal-box {
     padding: 20px;
+  }
+  .persian-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .clock-time {
+    font-size: 18px;
+  }
+  .clock-second {
+    font-size: 12px;
   }
 }
