@@ -138,13 +138,14 @@ export default function App() {
         />
       )}
       {activeView === "projects" && (
-        <ProjectsView projects={data.projects} initialTasks={INITIAL_TASKS} />
+        <ProjectsView projects={data.projects} initialTasks={INITIAL_TASKS} refresh={data.refresh} />
       )}
       {activeView === "dailyReports" && (
         <DailyReportsView
           reports={data.dailyReports}
           projects={data.projects}
           loading={data.loading}
+          refresh={data.refresh}
         />
       )}
       {activeView === "contractors" && (
@@ -153,6 +154,7 @@ export default function App() {
           transactions={data.transactions}
           projects={data.projects}
           money={money}
+          refresh={data.refresh}
         />
       )}
       {activeView === "accounting" && (
@@ -163,16 +165,18 @@ export default function App() {
           personalAccounts={data.personalAccounts}
           personalExpenses={data.personalExpenses}
           money={money}
+          refresh={data.refresh}
         />
       )}
       {activeView === "tasks" && (
-        <TasksView projects={data.projects} initialTasks={INITIAL_TASKS} />
+        <TasksView projects={data.projects} initialTasks={INITIAL_TASKS} refresh={data.refresh} />
       )}
       {activeView === "workerActivities" && (
         <WorkerActivitiesView
           activities={data.workerActivities}
           projects={data.projects}
           loading={data.loading}
+          refresh={data.refresh}
         />
       )}
       {activeView === "employers" && (
@@ -189,6 +193,7 @@ export default function App() {
           inventoryMovements={data.inventoryMovements}
           projects={data.projects}
           loading={data.loading}
+          refresh={data.refresh}
         />
       )}
       {activeView === "purchases" && (
@@ -196,6 +201,7 @@ export default function App() {
           purchases={data.purchases}
           projects={data.projects}
           loading={data.loading}
+          refresh={data.refresh}
         />
       )}
 

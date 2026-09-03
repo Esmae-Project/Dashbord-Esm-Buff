@@ -1165,6 +1165,145 @@ html.light .persian-clock:hover {
 }
 
 /* =====================================================
+   MODAL
+===================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-color);
+  width: min(600px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-primary);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: var(--accent-red-dim);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--accent-red);
+}
+
+.modal-overlay .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.modal-overlay .field label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.modal-overlay .field input,
+.modal-overlay .field select,
+.modal-overlay .field textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 14px;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.modal-overlay .field input:focus,
+.modal-overlay .field select:focus,
+.modal-overlay .field textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+}
+
+.modal-overlay .field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.modal-overlay .field input::placeholder,
+.modal-overlay .field textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.modal-overlay .field select option {
+  background: var(--bg-card-solid);
+  color: var(--text-primary);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.modal-error {
+  background: var(--accent-red-dim);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--accent-red);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.modal-success {
+  background: var(--accent-green-dim);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: var(--accent-green);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+/* =====================================================
    RESPONSIVE
 ===================================================== */
 @media (max-width: 700px) {

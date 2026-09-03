@@ -3,13 +3,16 @@ import type { Project } from "../hooks/useDashboardData";
 interface Props {
   projects: Project[];
   initialTasks: Record<string, [string, string][]>;
+  refresh: () => void;
 }
 
 export default function TasksView({ projects, initialTasks }: Props) {
   return (
     <>
       <div className="toolbar">
-        <button className="btn">＋ کار جدید</button>
+        <button className="btn" disabled>
+          ＋ کار جدید (بزودی)
+        </button>
       </div>
 
       <div className="grid-2">

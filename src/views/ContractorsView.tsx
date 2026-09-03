@@ -1,10 +1,14 @@
+import { useState } from "react";
 import type { Project, Contractor, Transaction } from "../hooks/useDashboardData";
+import { insertContractor } from "../lib/insert";
+import Modal from "../components/Modal";
 
 interface Props {
   contractors: Contractor[];
   transactions: Transaction[];
   projects: Project[];
   money: (n: number) => string;
+  refresh: () => void;
 }
 
 function dateFa(date?: string): string | null {
@@ -21,11 +25,36 @@ export default function ContractorsView({
   transactions,
   projects,
   money,
+  refresh,
 }: Props) {
+  const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim()) return;
+    setSaving(true);
+    setError("");
+    try {
+      await insertContractor({ name: name.trim() });
+      setShowModal(false);
+      setName("");
+      refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطا در ذخیره‌سازی");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <>
       <div className="toolbar">
-        <button className="btn">＋ پیمانکار جدید</button>
+        <button className="btn" onClick={() => setShowModal(true)}>
+          ＋ پیمانکار جدید
+        </button>
       </div>
 
       {contractors.map((contractor) => {
@@ -99,6 +128,31 @@ export default function ContractorsView({
           </div>
         );
       })}
+
+      <Modal show={showModal} onClose={() => setShowModal(false)} title="👤 پیمانکار جدید">
+        {error && <div className="modal-error">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label>نام پیمانکار</label>
+            <input
+              type="text"
+              placeholder="نام پیمانکار را وارد کنید"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              autoFocus
+            />
+          </div>
+          <div className="modal-actions">
+            <button type="submit" className="btn" disabled={saving}>
+              {saving ? "⏳ در حال ذخیره..." : "💾 ذخیره"}
+            </button>
+            <button type="button" className="btn light" onClick={() => setShowModal(false)}>
+              انصراف
+            </button>
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }

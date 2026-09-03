@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type {
   Project,
   Contractor,
@@ -5,6 +6,8 @@ import type {
   PersonalAccount,
   PersonalExpense,
 } from "../hooks/useDashboardData";
+import { insertTransaction, insertPersonalAccount, insertPersonalExpense } from "../lib/insert";
+import Modal from "../components/Modal";
 
 interface Props {
   contractors: Contractor[];
@@ -13,20 +16,170 @@ interface Props {
   personalAccounts: PersonalAccount[];
   personalExpenses: PersonalExpense[];
   money: (n: number) => string;
+  refresh: () => void;
 }
 
 export default function AccountingView({
   contractors,
   transactions,
+  projects,
   personalAccounts,
   personalExpenses,
   money,
+  refresh,
 }: Props) {
+  const [showWorkModal, setShowWorkModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showPersonalAccountModal, setShowPersonalAccountModal] = useState(false);
+  const [showExpenseModal, setShowExpenseModal] = useState(false);
+
+  // Work form state
+  const [workContractor, setWorkContractor] = useState("");
+  const [workProject, setWorkProject] = useState("");
+  const [workDesc, setWorkDesc] = useState("");
+  const [workAmount, setWorkAmount] = useState("");
+  const [workDate, setWorkDate] = useState("");
+
+  // Payment form state
+  const [payContractor, setPayContractor] = useState("");
+  const [payProject, setPayProject] = useState("");
+  const [payDesc, setPayDesc] = useState("");
+  const [payAmount, setPayAmount] = useState("");
+  const [payDate, setPayDate] = useState("");
+
+  // Personal account form state
+  const [paName, setPaName] = useState("");
+  const [paType, setPaType] = useState("debt");
+  const [paAmount, setPaAmount] = useState("");
+  const [paPaid, setPaPaid] = useState("");
+  const [paDate, setPaDate] = useState("");
+
+  // Expense form state
+  const [expName, setExpName] = useState("");
+  const [expAmount, setExpAmount] = useState("");
+  const [expDate, setExpDate] = useState("");
+  const [expCategory, setExpCategory] = useState("");
+  const [expDesc, setExpDesc] = useState("");
+
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  function today() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  async function handleWorkSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    setError("");
+    try {
+      await insertTransaction({
+        contractor_id: workContractor,
+        project_id: workProject,
+        type: "work",
+        description: workDesc,
+        amount_rial: Number(workAmount),
+        transaction_date: workDate || today(),
+      });
+      setShowWorkModal(false);
+      resetWorkForm();
+      refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطا در ذخیره‌سازی");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handlePaymentSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    setError("");
+    try {
+      await insertTransaction({
+        contractor_id: payContractor,
+        project_id: payProject,
+        type: "payment",
+        description: payDesc,
+        amount_rial: Number(payAmount),
+        transaction_date: payDate || today(),
+      });
+      setShowPaymentModal(false);
+      resetPayForm();
+      refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطا در ذخیره‌سازی");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handlePersonalAccountSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    setError("");
+    try {
+      await insertPersonalAccount({
+        person_name: paName,
+        account_type: paType,
+        amount_rial: Number(paAmount),
+        paid_rial: Number(paPaid) || 0,
+        account_date: paDate || today(),
+      });
+      setShowPersonalAccountModal(false);
+      setPaName(""); setPaType("debt"); setPaAmount(""); setPaPaid(""); setPaDate("");
+      refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطا در ذخیره‌سازی");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleExpenseSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    setError("");
+    try {
+      await insertPersonalExpense({
+        item_name: expName,
+        amount_rial: Number(expAmount),
+        expense_date: expDate || today(),
+        category: expCategory || undefined,
+        description: expDesc || undefined,
+      });
+      setShowExpenseModal(false);
+      setExpName(""); setExpAmount(""); setExpDate(""); setExpCategory(""); setExpDesc("");
+      refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطا در ذخیره‌سازی");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function resetWorkForm() {
+    setWorkContractor(""); setWorkProject(""); setWorkDesc(""); setWorkAmount(""); setWorkDate("");
+  }
+  function resetPayForm() {
+    setPayContractor(""); setPayProject(""); setPayDesc(""); setPayAmount(""); setPayDate("");
+  }
+
   return (
     <>
       <div className="toolbar">
-        <button className="btn">＋ کار انجام‌شده</button>
-        <button className="btn green">＋ پرداخت</button>
+        <button className="btn" onClick={() => { setError(""); setShowWorkModal(true); }}>
+          ＋ کار انجام‌شده
+        </button>
+        <button className="btn green" onClick={() => { setError(""); setShowPaymentModal(true); }}>
+          ＋ پرداخت
+        </button>
+        <button className="btn" onClick={() => { setError(""); setShowPersonalAccountModal(true); }}>
+          ＋ حساب شخصی
+        </button>
+        <button className="btn" onClick={() => { setError(""); setShowExpenseModal(true); }}>
+          ＋ هزینه شخصی
+        </button>
       </div>
 
       {/* Contractor Accounts */}
@@ -182,6 +335,203 @@ export default function AccountingView({
           )}
         </div>
       </details>
+
+      {/* ===== Work Modal ===== */}
+      <Modal show={showWorkModal} onClose={() => setShowWorkModal(false)} title="🔨 ثبت کار انجام‌شده">
+        {error && <div className="modal-error">{error}</div>}
+        <form onSubmit={handleWorkSubmit}>
+          <div className="field">
+            <label>پیمانکار</label>
+            <select value={workContractor} onChange={(e) => setWorkContractor(e.target.value)} required>
+              <option value="">انتخاب پیمانکار...</option>
+              {contractors.map((c) => (
+                <option key={c.id} value={c.id}>👤 {c.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field">
+            <label>پروژه</label>
+            <select value={workProject} onChange={(e) => setWorkProject(e.target.value)} required>
+              <option value="">انتخاب پروژه...</option>
+              {projects.map((p) => (
+                <option key={p.id} value={p.id}>🏗️ {p.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field">
+            <label>توضیحات</label>
+            <input
+              type="text"
+              placeholder="توضیح کار انجام‌شده"
+              value={workDesc}
+              onChange={(e) => setWorkDesc(e.target.value)}
+              required
+            />
+          </div>
+          <div className="field">
+            <label>مبلغ (ریال)</label>
+            <input
+              type="number"
+              placeholder="مبلغ به ریال"
+              value={workAmount}
+              onChange={(e) => setWorkAmount(e.target.value)}
+              required
+              min={0}
+            />
+          </div>
+          <div className="field">
+            <label>تاریخ</label>
+            <input
+              type="date"
+              value={workDate}
+              onChange={(e) => setWorkDate(e.target.value)}
+            />
+          </div>
+          <div className="modal-actions">
+            <button type="submit" className="btn" disabled={saving}>
+              {saving ? "⏳ ذخیره..." : "💾 ذخیره"}
+            </button>
+            <button type="button" className="btn light" onClick={() => setShowWorkModal(false)}>
+              انصراف
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* ===== Payment Modal ===== */}
+      <Modal show={showPaymentModal} onClose={() => setShowPaymentModal(false)} title="💰 ثبت پرداخت">
+        {error && <div className="modal-error">{error}</div>}
+        <form onSubmit={handlePaymentSubmit}>
+          <div className="field">
+            <label>پیمانکار</label>
+            <select value={payContractor} onChange={(e) => setPayContractor(e.target.value)} required>
+              <option value="">انتخاب پیمانکار...</option>
+              {contractors.map((c) => (
+                <option key={c.id} value={c.id}>👤 {c.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field">
+            <label>پروژه</label>
+            <select value={payProject} onChange={(e) => setPayProject(e.target.value)} required>
+              <option value="">انتخاب پروژه...</option>
+              {projects.map((p) => (
+                <option key={p.id} value={p.id}>🏗️ {p.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="field">
+            <label>توضیحات</label>
+            <input
+              type="text"
+              placeholder="توضیح پرداخت"
+              value={payDesc}
+              onChange={(e) => setPayDesc(e.target.value)}
+              required
+            />
+          </div>
+          <div className="field">
+            <label>مبلغ (ریال)</label>
+            <input
+              type="number"
+              placeholder="مبلغ به ریال"
+              value={payAmount}
+              onChange={(e) => setPayAmount(e.target.value)}
+              required
+              min={0}
+            />
+          </div>
+          <div className="field">
+            <label>تاریخ</label>
+            <input
+              type="date"
+              value={payDate}
+              onChange={(e) => setPayDate(e.target.value)}
+            />
+          </div>
+          <div className="modal-actions">
+            <button type="submit" className="btn green" disabled={saving}>
+              {saving ? "⏳ ذخیره..." : "💾 ذخیره پرداخت"}
+            </button>
+            <button type="button" className="btn light" onClick={() => setShowPaymentModal(false)}>
+              انصراف
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* ===== Personal Account Modal ===== */}
+      <Modal show={showPersonalAccountModal} onClose={() => setShowPersonalAccountModal(false)} title="👤 حساب شخصی جدید">
+        {error && <div className="modal-error">{error}</div>}
+        <form onSubmit={handlePersonalAccountSubmit}>
+          <div className="field">
+            <label>نام شخص</label>
+            <input type="text" placeholder="نام شخص" value={paName} onChange={(e) => setPaName(e.target.value)} required />
+          </div>
+          <div className="field">
+            <label>نوع حساب</label>
+            <select value={paType} onChange={(e) => setPaType(e.target.value)}>
+              <option value="debt">💸 بدهکارم</option>
+              <option value="credit">💰 طلبکارم</option>
+            </select>
+          </div>
+          <div className="field">
+            <label>مبلغ کل (ریال)</label>
+            <input type="number" placeholder="مبلغ کل" value={paAmount} onChange={(e) => setPaAmount(e.target.value)} required min={0} />
+          </div>
+          <div className="field">
+            <label>پرداخت‌شده (ریال)</label>
+            <input type="number" placeholder="مبلغ پرداخت شده" value={paPaid} onChange={(e) => setPaPaid(e.target.value)} min={0} />
+          </div>
+          <div className="field">
+            <label>تاریخ</label>
+            <input type="date" value={paDate} onChange={(e) => setPaDate(e.target.value)} />
+          </div>
+          <div className="modal-actions">
+            <button type="submit" className="btn" disabled={saving}>
+              {saving ? "⏳ ذخیره..." : "💾 ذخیره"}
+            </button>
+            <button type="button" className="btn light" onClick={() => setShowPersonalAccountModal(false)}>
+              انصراف
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* ===== Expense Modal ===== */}
+      <Modal show={showExpenseModal} onClose={() => setShowExpenseModal(false)} title="🛍️ هزینه شخصی جدید">
+        {error && <div className="modal-error">{error}</div>}
+        <form onSubmit={handleExpenseSubmit}>
+          <div className="field">
+            <label>نام کالا / مورد</label>
+            <input type="text" placeholder="نام هزینه" value={expName} onChange={(e) => setExpName(e.target.value)} required />
+          </div>
+          <div className="field">
+            <label>مبلغ (ریال)</label>
+            <input type="number" placeholder="مبلغ به ریال" value={expAmount} onChange={(e) => setExpAmount(e.target.value)} required min={0} />
+          </div>
+          <div className="field">
+            <label>تاریخ</label>
+            <input type="date" value={expDate} onChange={(e) => setExpDate(e.target.value)} />
+          </div>
+          <div className="field">
+            <label>دسته‌بندی (اختیاری)</label>
+            <input type="text" placeholder="مثال: حمل‌ونقل، غذا" value={expCategory} onChange={(e) => setExpCategory(e.target.value)} />
+          </div>
+          <div className="field">
+            <label>توضیحات (اختیاری)</label>
+            <input type="text" placeholder="توضیحات اضافی" value={expDesc} onChange={(e) => setExpDesc(e.target.value)} />
+          </div>
+          <div className="modal-actions">
+            <button type="submit" className="btn" disabled={saving}>
+              {saving ? "⏳ ذخیره..." : "💾 ذخیره"}
+            </button>
+            <button type="button" className="btn light" onClick={() => setShowExpenseModal(false)}>
+              انصراف
+            </button>
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }
