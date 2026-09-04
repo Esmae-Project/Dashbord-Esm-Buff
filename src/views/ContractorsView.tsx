@@ -83,10 +83,10 @@ export default function ContractorsView({
               </div>
               <div className="contractor-summary-right">
                 <span className="contractor-mini-stat work-stat">
-                  🔨 {money(totalWork)} ریال <span className="contractor-stat-count">({work.length})</span>
+                  🔨 {money(totalWork)} <span className="contractor-stat-count">({work.length})</span>
                 </span>
                 <span className="contractor-mini-stat pay-stat">
-                  💰 {money(totalPayments)} ریال <span className="contractor-stat-count">({payments.length})</span>
+                  💰 {money(totalPayments)} <span className="contractor-stat-count">({payments.length})</span>
                 </span>
                 <span className="contractor-balance">
                   مانده: <b className="danger">{money(bal)}</b>
@@ -115,7 +115,7 @@ export default function ContractorsView({
             <div className="contractor-section contractor-section-work">
               <div className="contractor-section-header">
                 <span>🔨 کارهای انجام‌شده</span>
-                <span className="contractor-section-total">{money(totalWork)} ریال</span>
+                <span className="contractor-section-total">{money(totalWork)}</span>
               </div>
               {work.length > 0 ? (
                 <div className="contractor-section-list">
@@ -139,7 +139,7 @@ export default function ContractorsView({
                         </div>
                         <div className="contractor-item-right">
                           <span className="contractor-item-amount work-amount">
-                            {money(item.amount_rial)} ریال
+                            {money(item.amount_rial)}
                           </span>
                           {item.transaction_date && (
                             <span className="contractor-item-date">
@@ -162,7 +162,7 @@ export default function ContractorsView({
             <div className="contractor-section contractor-section-pay">
               <div className="contractor-section-header">
                 <span>💰 پرداخت‌ها</span>
-                <span className="contractor-section-total">{money(totalPayments)} ریال</span>
+                <span className="contractor-section-total">{money(totalPayments)}</span>
               </div>
               {payments.length > 0 ? (
                 <div className="contractor-section-list">
@@ -178,7 +178,7 @@ export default function ContractorsView({
                       </div>
                       <div className="contractor-item-right">
                         <span className="contractor-item-amount pay-amount">
-                          {money(payment.amount_rial)} ریال
+                          {money(payment.amount_rial)}
                         </span>
                         {payment.transaction_date && (
                           <span className="contractor-item-date">
