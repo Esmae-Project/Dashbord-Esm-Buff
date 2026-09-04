@@ -74,15 +74,27 @@ export default function ContractorsView({
         const bal = totalWork - totalPayments;
 
         return (
-          <div className="contractor-card" key={contractor.id}>
-            {/* Contractor Header */}
-            <div className="contractor-header">
-              <div className="contractor-name">👤 {contractor.name}</div>
-              <div className="contractor-balance">
-                مانده: <b className="danger">{money(bal)}</b>
+          <details className="contractor-card" key={contractor.id}>
+            {/* Contractor Summary (always visible) */}
+            <summary className="contractor-header">
+              <div className="contractor-summary-left">
+                <span className="contractor-expand-icon"></span>
+                <div className="contractor-name">👤 {contractor.name}</div>
               </div>
-            </div>
+              <div className="contractor-summary-right">
+                <span className="contractor-mini-stat work-stat">
+                  🔨 {money(totalWork)} <span className="contractor-stat-count">({work.length})</span>
+                </span>
+                <span className="contractor-mini-stat pay-stat">
+                  💰 {money(totalPayments)} <span className="contractor-stat-count">({payments.length})</span>
+                </span>
+                <span className="contractor-balance">
+                  مانده: <b className="danger">{money(bal)}</b>
+                </span>
+              </div>
+            </summary>
 
+            <div className="contractor-details-body">
             {/* Summary Stats */}
             <div className="contractor-stats">
               <div className="contractor-stat work-stat">
@@ -183,7 +195,8 @@ export default function ContractorsView({
                 </div>
               )}
             </div>
-          </div>
+            </div>
+          </details>
         );
       })}
 

@@ -1310,11 +1310,11 @@ html.light .persian-clock:hover {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   box-shadow: var(--shadow-sm);
   backdrop-filter: blur(20px);
   transition: var(--transition);
+  overflow: hidden;
 }
 
 .contractor-card:hover {
@@ -1322,24 +1322,102 @@ html.light .persian-clock:hover {
   box-shadow: var(--shadow-md);
 }
 
+.contractor-card[open] {
+  box-shadow: var(--shadow-md), 0 0 20px rgba(245, 166, 35, 0.05);
+}
+
+.contractor-card summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.contractor-card summary::-webkit-details-marker {
+  display: none;
+}
+
 .contractor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 16px 20px;
+  gap: 12px;
+  transition: var(--transition);
+}
+
+.contractor-header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.contractor-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contractor-expand-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.contractor-card[open] .contractor-expand-icon {
+  background: var(--accent-gold-dim);
+  border-color: rgba(245, 166, 35, 0.3);
+  color: var(--accent-gold);
 }
 
 .contractor-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--text-primary);
 }
 
+.contractor-summary-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.contractor-mini-stat {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.contractor-mini-stat.work-stat {
+  background: var(--accent-green-dim);
+  color: var(--accent-green);
+}
+
+.contractor-mini-stat.pay-stat {
+  background: var(--accent-blue-dim);
+  color: var(--accent-blue);
+}
+
 .contractor-balance {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.contractor-details-body {
+  padding: 0 20px 20px;
+  animation: slideDown 0.25s ease;
 }
 
 .contractor-stats {
@@ -1569,5 +1647,14 @@ html.light .persian-clock:hover {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+    padding: 14px 16px;
+  }
+  .contractor-summary-right {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .contractor-mini-stat {
+    font-size: 11px;
+    padding: 4px 8px;
   }
 }
