@@ -58,12 +58,12 @@ export default function ContractorsView({
       </div>
 
       {contractors.map((contractor) => {
-        const work = transactions.filter(
-          (t) => t.contractor_id === contractor.id && t.type === "work"
-        );
-        const payments = transactions.filter(
-          (t) => t.contractor_id === contractor.id && t.type === "payment"
-        );
+        const work = transactions
+          .filter((t) => t.contractor_id === contractor.id && t.type === "work")
+          .sort((a, b) => (b.transaction_date || b.created_at || '').localeCompare(a.transaction_date || a.created_at || ''));
+        const payments = transactions
+          .filter((t) => t.contractor_id === contractor.id && t.type === "payment")
+          .sort((a, b) => (b.transaction_date || b.created_at || '').localeCompare(a.transaction_date || a.created_at || ''));
         const totalWork = work
           .filter((t) => t.status !== "replaced")
           .reduce((s, t) => s + (t.amount_rial || 0), 0);
