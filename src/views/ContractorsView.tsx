@@ -83,10 +83,10 @@ export default function ContractorsView({
               </div>
               <div className="contractor-summary-right">
                 <span className="contractor-mini-stat work-stat">
-                  🔨 {money(totalWork)} <span className="contractor-stat-count">({work.length})</span>
+                  🔨 {money(totalWork)} ریال <span className="contractor-stat-count">({work.length})</span>
                 </span>
                 <span className="contractor-mini-stat pay-stat">
-                  💰 {money(totalPayments)} <span className="contractor-stat-count">({payments.length})</span>
+                  💰 {money(totalPayments)} ریال <span className="contractor-stat-count">({payments.length})</span>
                 </span>
                 <span className="contractor-balance">
                   مانده: <b className="danger">{money(bal)}</b>
