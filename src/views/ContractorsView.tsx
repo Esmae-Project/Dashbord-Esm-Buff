@@ -59,12 +59,10 @@ export default function ContractorsView({
 
       {contractors.map((contractor) => {
         const work = transactions.filter(
-          (t) =>
-            t.contractor_id === contractor.id && t.type === "work"
+          (t) => t.contractor_id === contractor.id && t.type === "work"
         );
         const payments = transactions.filter(
-          (t) =>
-            t.contractor_id === contractor.id && t.type === "payment"
+          (t) => t.contractor_id === contractor.id && t.type === "payment"
         );
         const totalWork = work
           .filter((t) => t.status !== "replaced")
@@ -76,60 +74,124 @@ export default function ContractorsView({
         const bal = totalWork - totalPayments;
 
         return (
-          <div className="card" key={contractor.id} style={{ marginBottom: 12 }}>
-            <div className="row">
-              <strong>👤 {contractor.name}</strong>
-              <strong className="danger">{money(bal)}</strong>
+          <div className="contractor-card" key={contractor.id}>
+            {/* Contractor Header */}
+            <div className="contractor-header">
+              <div className="contractor-name">👤 {contractor.name}</div>
+              <div className="contractor-balance">
+                مانده: <b className="danger">{money(bal)}</b>
+              </div>
             </div>
 
-            <details open>
-              <summary>کارهای انجام‌شده</summary>
-              {work.length > 0 ? (
-                work.map((item) => {
-                  const projName =
-                    projects.find((p) => p.id === item.project_id)?.name || "";
-                  return (
-                    <p key={item.id}>
-                      {projName} — {item.description}
-                      <br />
-                      <b>{money(item.amount_rial)}</b>
-                      {item.transaction_date && (
-                        <span className="muted">
-                          — {dateFa(item.transaction_date)}
-                        </span>
-                      )}
-                    </p>
-                  );
-                })
-              ) : (
-                <p className="muted">موردی نیست.</p>
-              )}
-            </details>
+            {/* Summary Stats */}
+            <div className="contractor-stats">
+              <div className="contractor-stat work-stat">
+                <span className="contractor-stat-icon">🔨</span>
+                <span className="contractor-stat-label">کار انجام‌شده</span>
+                <span className="contractor-stat-value work-value">{money(totalWork)}</span>
+                <span className="contractor-stat-count">{work.length} مورد</span>
+              </div>
+              <div className="contractor-stat pay-stat">
+                <span className="contractor-stat-icon">💰</span>
+                <span className="contractor-stat-label">پرداخت‌ها</span>
+                <span className="contractor-stat-value pay-value">{money(totalPayments)}</span>
+                <span className="contractor-stat-count">{payments.length} مورد</span>
+              </div>
+            </div>
 
-            <details>
-              <summary>پرداخت‌ها</summary>
-              {payments.length > 0 ? (
-                payments.map((payment) => (
-                  <p key={payment.id}>
-                    {payment.description}
-                    <br />
-                    <b className="success">{money(payment.amount_rial)}</b>
-                    {payment.transaction_date && (
-                      <span className="muted">
-                        — {dateFa(payment.transaction_date)}
-                      </span>
-                    )}
-                  </p>
-                ))
+            {/* Work Section - Green accent */}
+            <div className="contractor-section contractor-section-work">
+              <div className="contractor-section-header">
+                <span>🔨 کارهای انجام‌شده</span>
+                <span className="contractor-section-total">{money(totalWork)} ریال</span>
+              </div>
+              {work.length > 0 ? (
+                <div className="contractor-section-list">
+                  {work.map((item) => {
+                    const projName =
+                      projects.find((p) => p.id === item.project_id)?.name || "";
+                    return (
+                      <div
+                        className="contractor-section-item"
+                        key={item.id}
+                      >
+                        <div className="contractor-item-main">
+                          {projName && (
+                            <span className="contractor-item-project">
+                              🏗️ {projName}
+                            </span>
+                          )}
+                          <span className="contractor-item-desc">
+                            {item.description}
+                          </span>
+                        </div>
+                        <div className="contractor-item-right">
+                          <span className="contractor-item-amount work-amount">
+                            {money(item.amount_rial)} ریال
+                          </span>
+                          {item.transaction_date && (
+                            <span className="contractor-item-date">
+                              {dateFa(item.transaction_date)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               ) : (
-                <p className="muted">پرداختی ثبت نشده.</p>
+                <div className="contractor-section-empty">
+                  هنوز کاری ثبت نشده
+                </div>
               )}
-            </details>
+            </div>
+
+            {/* Payments Section - Blue accent */}
+            <div className="contractor-section contractor-section-pay">
+              <div className="contractor-section-header">
+                <span>💰 پرداخت‌ها</span>
+                <span className="contractor-section-total">{money(totalPayments)} ریال</span>
+              </div>
+              {payments.length > 0 ? (
+                <div className="contractor-section-list">
+                  {payments.map((payment) => (
+                    <div
+                      className="contractor-section-item"
+                      key={payment.id}
+                    >
+                      <div className="contractor-item-main">
+                        <span className="contractor-item-desc">
+                          {payment.description}
+                        </span>
+                      </div>
+                      <div className="contractor-item-right">
+                        <span className="contractor-item-amount pay-amount">
+                          {money(payment.amount_rial)} ریال
+                        </span>
+                        {payment.transaction_date && (
+                          <span className="contractor-item-date">
+                            {dateFa(payment.transaction_date)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="contractor-section-empty">
+                  هنوز پرداختی ثبت نشده
+                </div>
+              )}
+            </div>
           </div>
         );
       })}
 
-      <Modal show={showModal} onClose={() => setShowModal(false)} title="👤 پیمانکار جدید">
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        title="👤 پیمانکار جدید"
+      >
         {error && <div className="modal-error">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="field">
@@ -147,7 +209,11 @@ export default function ContractorsView({
             <button type="submit" className="btn" disabled={saving}>
               {saving ? "⏳ در حال ذخیره..." : "💾 ذخیره"}
             </button>
-            <button type="button" className="btn light" onClick={() => setShowModal(false)}>
+            <button
+              type="button"
+              className="btn light"
+              onClick={() => setShowModal(false)}
+            >
               انصراف
             </button>
           </div>
