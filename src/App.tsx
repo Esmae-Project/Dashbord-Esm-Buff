@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDashboardData } from "./hooks/useDashboardData";
+import { useIsMobile } from "./hooks/useIsMobile";
 import DashboardView from "./views/DashboardView";
 import ProjectsView from "./views/ProjectsView";
 import DailyReportsView from "./views/DailyReportsView";
@@ -59,7 +60,18 @@ function money(num: number): string {
 
 export default function App() {
   const [activeView, setActiveView] = useState<ViewId>("dashboard");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isMobile = useIsMobile();
   const data = useDashboardData();
+
+  const currentLabel =
+    NAV_ITEMS.find((i) => i.id === activeView)?.label ?? "داشبورد";
+
+  function go(view: ViewId) {
+    setActiveView(view);
+    setMenuOpen(false);
+    window.scrollTo({ top: 0 });
+  }
 
   // Theme
   useEffect(() => {
@@ -84,46 +96,147 @@ export default function App() {
         ? "notice error-box"
         : "notice";
 
-  return (
-    <div className="app">
-      <header>
-        <div className="header-inner">
-          <div>
-            <h1>
-              <span className="gold-line">🏗️ داشبورد مدیریت پروژه یاشار</span>
-            </h1>
-            <div className="subtitle">پروژه‌ها • پیمانکاران • حسابداری • کارفرماها</div>
+  /* ================= DESKTOP LAYOUT ================= */
+  if (!isMobile) {
+    return (
+      <div className="app">
+        <header>
+          <div className="header-inner">
+            <div>
+              <h1>
+                <span className="gold-line">🏗️ داشبورد مدیریت پروژه یاشار</span>
+              </h1>
+              <div className="subtitle">پروژه‌ها • پیمانکاران • حسابداری • کارفرماها</div>
+            </div>
+
+            <PersianClock />
+
+            <div className="theme-toggle">
+              <span className="theme-toggle-label">☀️</span>
+              <button
+                className="theme-toggle-btn"
+                onClick={toggleTheme}
+                title="تغییر تم"
+              />
+              <span className="theme-toggle-label">🌙</span>
+            </div>
           </div>
+        </header>
 
-          <PersianClock />
+        <div className={noticeClass}>{data.connectionMessage}</div>
 
-          <div className="theme-toggle">
-            <span className="theme-toggle-label">☀️</span>
+        <nav>
+          {NAV_ITEMS.map((item) => (
             <button
-              className="theme-toggle-btn"
-              onClick={toggleTheme}
-              title="تغییر تم"
-            />
-            <span className="theme-toggle-label">🌙</span>
-          </div>
+              key={item.id}
+              className={activeView === item.id ? "active" : ""}
+              onClick={() => go(item.id as ViewId)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        {renderView()}
+
+        <footer>
+          اطلاعات حسابداری از Supabase به‌صورت آنلاین خوانده می‌شود.
+          <br />
+          ثبت تغییرات حسابداری فعلاً از داخل ChatGPT انجام می‌شود.
+        </footer>
+      </div>
+    );
+  }
+
+  /* ================= MOBILE LAYOUT ================= */
+  return (
+    <div className="app mobile-app">
+      <header className="mobile-header">
+        <div className="mobile-header-top">
+          <button
+            className="icon-btn"
+            onClick={() => setMenuOpen(true)}
+            title="منو"
+          >
+            ☰
+          </button>
+          <div className="mobile-title">داشبورد یاشار</div>
+          <button
+            className="icon-btn"
+            onClick={toggleTheme}
+            title="تغییر تم"
+          >
+            🌓
+          </button>
         </div>
+        <div className="mobile-clock"><PersianClock /></div>
       </header>
 
       <div className={noticeClass}>{data.connectionMessage}</div>
 
-      <nav>
-        {NAV_ITEMS.map((item) => (
+      {/* عنوان صفحه فعلی */}
+      <div className="mobile-current-page">{currentLabel}</div>
+
+      {renderView()}
+
+      {/* Drawer منو */}
+      {menuOpen && (
+        <>
+          <div className="drawer-overlay" onClick={() => setMenuOpen(false)} />
+          <aside className="drawer">
+            <div className="drawer-header">
+              <span className="drawer-title">🏗️ داشبورد یاشار</span>
+              <button className="icon-btn" onClick={() => setMenuOpen(false)}>
+                ✕
+              </button>
+            </div>
+            <nav className="drawer-nav">
+              {NAV_ITEMS.map((item) => (
+                <button
+                  key={item.id}
+                  className={
+                    "drawer-item" + (activeView === item.id ? " active" : "")
+                  }
+                  onClick={() => go(item.id as ViewId)}
+                >
+                  <span>{item.label}</span>
+                  {activeView === item.id && <span className="drawer-arrow">◂</span>}
+                </button>
+              ))}
+            </nav>
+          </aside>
+        </>
+      )}
+
+      {/* تب‌بار پایین — ۴ بخش اصلی */}
+      <nav className="bottom-tabs">
+        {(
+          [
+            { id: "dashboard", label: "داشبورد", icon: "🏠" },
+            { id: "contractors", label: "پیمانکار", icon: "👷" },
+            { id: "accounting", label: "حسابداری", icon: "💰" },
+            { id: "purchases", label: "خرید", icon: "🛒" },
+          ] as const
+        ).map((tab) => (
           <button
-            key={item.id}
-            className={activeView === item.id ? "active" : ""}
-            onClick={() => setActiveView(item.id as ViewId)}
+            key={tab.id}
+            className={
+              "bottom-tab" + (activeView === tab.id ? " active" : "")
+            }
+            onClick={() => go(tab.id as ViewId)}
           >
-            {item.label}
+            <span className="bottom-tab-icon">{tab.icon}</span>
+            <span className="bottom-tab-label">{tab.label}</span>
           </button>
         ))}
       </nav>
+    </div>
+  );
 
-      {activeView === "dashboard" && (
+  function renderView() {
+    return (
+      <>
+        {activeView === "dashboard" && (
         <DashboardView
           projects={data.projects}
           contractors={data.contractors}
@@ -204,12 +317,7 @@ export default function App() {
           refresh={data.refresh}
         />
       )}
-
-      <footer>
-        اطلاعات حسابداری از Supabase به‌صورت آنلاین خوانده می‌شود.
-        <br />
-        ثبت تغییرات حسابداری فعلاً از داخل ChatGPT انجام می‌شود.
-      </footer>
-    </div>
-  );
+      </>
+    );
+  }
 }
