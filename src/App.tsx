@@ -160,7 +160,13 @@ export default function App() {
           >
             ☰
           </button>
-          <div className="mobile-title">داشبورد یاشار</div>
+          <button
+            className="mobile-title mobile-title-btn"
+            onClick={() => go("dashboard")}
+            title="رفتن به داشبورد"
+          >
+            داشبورد یاشار
+          </button>
           <button
             className="icon-btn"
             onClick={toggleTheme}
@@ -212,10 +218,10 @@ export default function App() {
       <nav className="bottom-tabs">
         {(
           [
-            { id: "dashboard", label: "داشبورد", icon: "🏠" },
             { id: "contractors", label: "پیمانکار", icon: "👷" },
             { id: "accounting", label: "حسابداری", icon: "💰" },
             { id: "purchases", label: "خرید", icon: "🛒" },
+            { id: "dailyReports", label: "گزارش روزانه", icon: "📋" },
           ] as const
         ).map((tab) => (
           <button
